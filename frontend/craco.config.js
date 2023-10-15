@@ -2,6 +2,9 @@ const CracoLessPlugin = require('craco-less');
 const CracoAlias = require('craco-alias');
 
 module.exports = {
+  devServer: {
+    port: 5000
+  },
   plugins: [
     {
       plugin: CracoAlias,
