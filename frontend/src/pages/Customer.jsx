@@ -49,8 +49,8 @@ function Customer() {
       dataIndex: 'managerName',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
+      title: 'Phone',
+      dataIndex: 'phone',
     },
   ];
 

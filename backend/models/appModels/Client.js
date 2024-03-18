@@ -79,7 +79,7 @@ const clientSchema = new mongoose.Schema({
     type: String,
     trim: true,
     lowercase: true,
-    unique: true,
+    // unique: true,
   },
   website: {
     type: String,
