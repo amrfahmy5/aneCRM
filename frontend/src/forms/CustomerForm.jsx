@@ -100,10 +100,10 @@ export default function CustomerForm({ isUpdateForm = false }) {
             type: 'email',
             message: 'The input is not valid E-mail!',
           },
-          {
-            required: true,
-            message: 'Please input your E-mail!',
-          },
+          // {
+          //   required: true,
+          //   message: 'Please input your E-mail!',
+          // },
           {
             validator: validateEmptyString,
             message: 'Please input valid value!',

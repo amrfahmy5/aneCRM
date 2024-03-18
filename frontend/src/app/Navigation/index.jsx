@@ -26,11 +26,11 @@ const SIDEBAR_MENU = [
   // { key: '/lead', icon: <UserAddOutlined />, title: 'Lead' },
   // { key: '/offer', icon: <FileOutlined />, title: 'Offer' },
   { key: '/customer', icon: <CustomerServiceOutlined />, title: 'Customer' },
-  { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice' },
-  { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
+  // { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice' },
+  // { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
   // { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
-  { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
+  // { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
 ];
 
 const SETTINGS_SUBMENU = [
