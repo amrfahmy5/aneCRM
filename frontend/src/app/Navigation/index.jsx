@@ -3,8 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button, Drawer, Layout, Menu } from 'antd';
 
 import { useAppContext } from '@/context/appContext';
-import logoIcon from '@/style/images/logo-icon.svg';
-import logoText from '@/style/images/logo-text.svg';
 import history from '@/utils/history';
 
 import {
