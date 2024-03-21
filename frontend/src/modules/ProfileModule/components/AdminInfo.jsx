@@ -51,7 +51,7 @@ const AdminInfo = ({ config }) => {
         <Col xs={{ span: 24 }} sm={{ span: 7 }} md={{ span: 5 }}>
           <img
             className="last left circle pad5"
-            src={`${BASE_URL}${currentAdmin?.photo}`}
+            src={photo}
             style={{
               width: '100px',
               height: '100px',

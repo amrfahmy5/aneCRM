@@ -26,11 +26,11 @@ const SIDEBAR_MENU = [
   // { key: '/lead', icon: <UserAddOutlined />, title: 'Lead' },
   // { key: '/offer', icon: <FileOutlined />, title: 'Offer' },
   { key: '/customer', icon: <CustomerServiceOutlined />, title: 'Customer' },
-  // { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice' },
-  // { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
-  // { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
+  { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice' },
+  { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
+  { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
-  // { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
+  { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
 ];
 
 const SETTINGS_SUBMENU = [
@@ -38,8 +38,8 @@ const SETTINGS_SUBMENU = [
 
   // { key: '/email', title: 'Email templates' },
 
-  // { key: '/payment/mode', title: 'Payment Mode' },
-  // { key: '/settings/advanced', title: 'Advanced Settings' },
+  { key: '/payment/mode', title: 'Payment Mode' },
+  // { key:  '/settings/advanced', title: 'Advanced Settings' },
 ];
 
 const { Sider } = Layout;

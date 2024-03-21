@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Avatar, Menu, Dropdown } from 'antd';
 import Notifications from '@/components/Notification';
-
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -32,12 +31,12 @@ export default function HeaderContent() {
         <Avatar
           size="large"
           className="last"
-          src={`${BASE_URL}${currentAdmin?.photo}`}
+          src={photo}
           style={{ float: 'left' }}
         />
         <div className="info">
           <p className="strong">
-            {currentAdmin?.name} {currentAdmin?.surname}
+            {currentAdmin?.name}
           </p>
           <p>{currentAdmin?.email}</p>
         </div>
@@ -80,18 +79,18 @@ export default function HeaderContent() {
     <div className="headerIcon" style={{ position: 'absolute', right: 0, zIndex: '99' }}>
       <Dropdown overlay={profileDropdown} trigger={['click']} placement="bottomRight">
         {/* <Badge dot> */}
-        <Avatar className="last" src={`${BASE_URL}${currentAdmin?.photo}`} />
+        <Avatar className="last" src={photo} />
         {/* </Badge> */}
       </Dropdown>
 
-      <Avatar icon={<AppstoreOutlined />} />
+      {/* <Avatar icon={<AppstoreOutlined />} /> */}
 
-      <Dropdown overlay={<Notifications />} trigger={['click']} placement="bottomRight">
+      {/* <Dropdown overlay={<Notifications />} trigger={['click']} placement="bottomRight"> */}
         {/* <Badge dot> */}
-        <Avatar icon={<BellOutlined />} />
+        {/* <Avatar icon={<BellOutlined />} /> */}
 
         {/* </Badge> */}
-      </Dropdown>
+      {/* </Dropdown> */}
     </div>
   );
 }
