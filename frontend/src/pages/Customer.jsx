@@ -18,17 +18,17 @@ function Customer() {
       title: 'Company',
       dataIndex: 'company',
     },
-    {
-      title: 'Manager Surname',
-      dataIndex: 'managerSurname',
-    },
+    // {
+    //   title: 'Manager Surname',
+    //   dataIndex: 'managerSurname',
+    // },
     {
       title: 'Manager Name',
       dataIndex: 'managerName',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
+      title: 'Address',
+      dataIndex: 'address',
     },
     {
       title: 'Phone',
@@ -40,13 +40,17 @@ function Customer() {
       title: 'Company',
       dataIndex: 'company',
     },
-    {
-      title: 'Manager Surname',
-      dataIndex: 'managerSurname',
-    },
+    // {
+    //   title: 'Manager Surname',
+    //   dataIndex: 'managerSurname',
+    // },
     {
       title: 'Manager Name',
       dataIndex: 'managerName',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
     },
     {
       title: 'Phone',

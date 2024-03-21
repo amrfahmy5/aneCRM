@@ -35,9 +35,9 @@ function DropDownRowMenu({ row, entity }) {
       <Menu.Item icon={<EditOutlined />} onClick={Edit}>
         Edit
       </Menu.Item>
-      <Menu.Item onClick={Download} icon={<FilePdfOutlined />}>
+      {/* <Menu.Item onClick={Download} icon={<FilePdfOutlined />}>
         Download
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 }

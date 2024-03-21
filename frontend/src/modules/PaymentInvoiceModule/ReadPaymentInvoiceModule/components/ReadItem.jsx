@@ -126,18 +126,18 @@ export default function ReadItem({ config, selectedItem }) {
           >
             Close
           </Button>,
-          <Button
-            key={`${uniqueId()}`}
-            onClick={() => {
-              window.open(
-                `${DOWNLOAD_BASE_URL}${entity}/${entity}-${currentErp._id}.pdf`,
-                '_blank'
-              );
-            }}
-            icon={<FilePdfOutlined />}
-          >
-            Download PDF
-          </Button>,
+          // <Button
+          //   key={`${uniqueId()}`}
+          //   onClick={() => {
+          //     window.open(
+          //       `${DOWNLOAD_BASE_URL}${entity}/${entity}-${currentErp._id}.pdf`,
+          //       '_blank'
+          //     );
+          //   }}
+          //   icon={<FilePdfOutlined />}
+          // >
+          //   Download PDF
+          // </Button>,
           <Button
             key={`${uniqueId()}`}
             onClick={() => {

@@ -30,27 +30,6 @@ export default function CustomerForm({ isUpdateForm = false }) {
         <Input />
       </Form.Item>
       <Form.Item
-        label="Surname"
-        name="managerSurname"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your surname!',
-          },
-          {
-            validator: validateEmptyString,
-            message: 'Please input valid value!',
-          },
-        ]}
-        style={{
-          display: 'inline-block',
-          width: 'calc(50%)',
-          paddingRight: '5px',
-        }}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
         label="Name"
         name="managerName"
         rules={[
@@ -66,12 +45,32 @@ export default function CustomerForm({ isUpdateForm = false }) {
         style={{
           display: 'inline-block',
           width: 'calc(50%)',
+          paddingRight: '5px',
+        }}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Family"
+        name="managerSurname"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your surname!',
+          },
+          {
+            validator: validateEmptyString,
+            message: 'Please input valid value!',
+          },
+        ]}
+        style={{
+          display: 'inline-block',
+          width: 'calc(50%)',
           paddingLeft: '5px',
         }}
       >
         <Input />
       </Form.Item>
-
       <Form.Item
         name="phone"
         label="Phone"
@@ -92,24 +91,7 @@ export default function CustomerForm({ isUpdateForm = false }) {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: 'email',
-            message: 'The input is not valid E-mail!',
-          },
-          // {
-          //   required: true,
-          //   message: 'Please input your E-mail!',
-          // },
-          {
-            validator: validateEmptyString,
-            message: 'Please input valid value!',
-          },
-        ]}
-      >
+      <Form.Item name="address" label="Address">
         <Input />
       </Form.Item>
     </>
