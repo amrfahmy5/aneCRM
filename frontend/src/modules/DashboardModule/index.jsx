@@ -56,9 +56,9 @@ export default function DashboardModule() {
   //   request.summary({ entity: 'offer' })
   // );
 
-  // const { result: paymentResult, isLoading: paymentLoading } = useFetch(() =>
-  //   request.summary({ entity: 'payment/invoice' })
-  // );
+  const { result: paymentResult, isLoading: paymentLoading } = useFetch(() =>
+    request.summary({ entity: 'payment/invoice' })
+  );
 
   const { result: clientResult, isLoading: clientLoading } = useFetch(() =>
     request.summary({ entity: 'client' })
@@ -80,11 +80,11 @@ export default function DashboardModule() {
     //   isLoading: offerLoading,
     //   entity: 'offer',
     // },
-    // {
-    //   result: paymentResult,
-    //   isLoading: paymentLoading,
-    //   entity: 'payment',
-    // },
+    {
+      result: paymentResult,
+      isLoading: paymentLoading,
+      entity: 'payment',
+    },
   ];
 
   const cards = entityData.map((data, index) => {
@@ -133,7 +133,7 @@ export default function DashboardModule() {
     <DashboardLayout>
       <Row gutter={[24, 24]}>
         {cards}
-        <SummaryCard
+        {/* <SummaryCard
           title={'Due Balance'}
           tagColor={'red'}
           prefix={'Not Paid'}
@@ -142,7 +142,7 @@ export default function DashboardModule() {
             invoiceResult?.total_undue &&
             ` ${invoiceResult?.total_undue} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g , ' ')
           }
-        />
+        /> */}
       </Row>
       <div className="space30"></div>
       <Row gutter={[24, 24]}>

@@ -65,7 +65,7 @@ export default function AnalyticSummaryCard({
                       textOverflow: 'ellipsis',
                     }}
                   >
-                    {tagContent ? tagContent : '$0.00'}
+                    {tagContent ? tagContent : '0.00 L.E'}
                   </Tag>
                 </Tooltip>
               )}
