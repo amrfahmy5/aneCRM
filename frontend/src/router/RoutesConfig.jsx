@@ -109,6 +109,10 @@ export const routesConfig = [
     component: 'PaymentMode',
   },
   {
+    path: '/expenseCategory/list',
+    component: 'expenseCategory',
+  },
+  {
     path: '/email',
     component: 'Email/index',
   },
@@ -159,5 +163,39 @@ export const routesConfig = [
   {
     path: '/offer/update/:id',
     component: 'Offer/OfferUpdate',
+  },
+
+  {
+    path: '/expense',
+    component: 'Expense/index',
+  },
+  {
+    path: '/expense/create',
+    component: 'Expense/ExpenseCreate',
+  },
+  {
+    path: '/expense/read/:id',
+    component: 'Expense/ExpenseRead',
+  },
+  {
+    path: '/expense/update/:id',
+    component: 'Expense/ExpenseUpdate',
+  },
+
+  {
+    path: '/expenseCategory',
+    component: 'ExpenseCategory/index',
+  },
+  {
+    path: '/expenseCategory/create',
+    component: 'ExpenseCategory/ExpenseCategoryCreate',
+  },
+  {
+    path: '/expenseCategory/read/:id',
+    component: 'ExpenseCategory/ExpenseCategoryRead',
+  },
+  {
+    path: '/expenseCategory/update/:id',
+    component: 'ExpenseCategory/ExpenseCategoryUpdate',
   },
 ];

@@ -18,7 +18,6 @@ const expenseSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    required: true,
   },
   ref: {
     type: String,
@@ -34,6 +33,7 @@ const expenseSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'ExpenseCategory',
     required: true,
+    autopopulate: true,
   },
   taxRate: {
     type: Number,
@@ -50,6 +50,12 @@ const expenseSchema = new mongoose.Schema({
   paymentMode: {
     type: mongoose.Schema.ObjectId,
     ref: 'PaymentMode',
+    autopopulate: true,
+    required: true,
+  },
+  status: {
+    type: String,
+    default: 'personal',
   },
   attachedFile: {
     type: String,
@@ -62,6 +68,11 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  created_by:{
+    type: String,
+    default:"amr"
+  }
 });
 
+expenseSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model('Expense', expenseSchema);

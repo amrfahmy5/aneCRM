@@ -31,7 +31,7 @@ export default function PaymentInvoiceForm({ maxAmount = null, isUpdateForm = fa
             type: 'object',
           },
         ]}
-        initialValue={dayjs().add(30, 'days')}
+        initialValue={dayjs()}
         style={{ width: '50%' }}
       >
         <DatePicker format={'DD/MM/YYYY'} style={{ width: '100%' }} />
