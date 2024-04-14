@@ -99,7 +99,7 @@ const summary = async (req, res) => {
               },
             },
             {
-              $sort: { averageValue: -1 },
+              $sort: { _id: -1 },
             }
           ],
         },
