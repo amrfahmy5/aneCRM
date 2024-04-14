@@ -66,6 +66,9 @@ const summary = async (req, res) => {
                 count: {
                   $sum: 1,
                 },
+                total: {
+                  $sum: '$total',
+                },
               },
             },
             {
@@ -73,6 +76,7 @@ const summary = async (req, res) => {
                 _id: 0,
                 status: '$_id',
                 count: '$count',
+                total: '$total'
               },
             },
           ],
@@ -83,6 +87,9 @@ const summary = async (req, res) => {
                 count: {
                   $sum: 1,
                 },
+                total: {
+                  $sum: '$total',
+                },
               },
             },
             {
@@ -90,6 +97,7 @@ const summary = async (req, res) => {
                 _id: 0,
                 status: '$_id',
                 count: '$count',
+                total: '$total'
               },
             },
           ],
@@ -107,6 +115,9 @@ const summary = async (req, res) => {
                 count: {
                   $sum: 1,
                 },
+                total: {
+                  $sum: '$total',
+                },
               },
             },
             {
@@ -114,6 +125,7 @@ const summary = async (req, res) => {
                 _id: 0,
                 status: '$_id',
                 count: '$count',
+                total: '$total'
               },
             },
           ],

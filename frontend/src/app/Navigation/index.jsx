@@ -17,7 +17,8 @@ import {
   MenuOutlined,
   UserAddOutlined,
   FileOutlined,
-  DollarOutlined
+  DollarOutlined,
+  GatewayOutlined
 } from '@ant-design/icons';
 
 const SIDEBAR_MENU = [
@@ -29,7 +30,7 @@ const SIDEBAR_MENU = [
   { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
   { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
-  { key: '/expenseCategory', icon: <DollarOutlined/>, title: 'Expense Category' },
+  { key: '/expenseCategory', icon: <GatewayOutlined/>, title: 'Expense Category' },
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
   { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
 

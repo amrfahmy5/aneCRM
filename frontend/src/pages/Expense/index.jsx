@@ -53,7 +53,11 @@ export default function Lead() {
             : 'red';
         return <Tag color={color}>{status && status.toUpperCase()}</Tag>;
       }
-    } 
+    },
+    {
+      title: 'Created by',
+      dataIndex: 'created_by',
+    },
   ];
 
   const dataTableColumns = [
@@ -87,7 +91,11 @@ export default function Lead() {
             : 'red';
         return <Tag color={color}>{status && status.toUpperCase()}</Tag>;
       },
-    }
+    },
+    {
+      title: 'Created by',
+      dataIndex: ['created_by'],
+    },
   ];
 
   const config = {

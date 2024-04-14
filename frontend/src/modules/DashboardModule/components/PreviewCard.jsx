@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { Col, Progress, Spin } from 'antd';
-
+function formatCurrency(value) {
+  return `(${value} L.E)`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
 const colours = {
   draft: '#595959',
   sent: '#1890ff',
@@ -70,10 +72,10 @@ const defaultInvoiceStatistics = [
   },
 ];
 
-const PreviewState = ({ tag, color, value }) => {
+const PreviewState = ({ tag, color, value ,total}) => {
   return (
     <div style={{ color: '#595959', marginBottom: 5 }}>
-      <div className="left alignLeft capitalize">{tag}</div>
+      <div className="left alignLeft capitalize">{tag} { total&&formatCurrency(total)}</div>
       <div className="right alignRight">{value} %</div>
       <Progress
         percent={value}
@@ -146,6 +148,7 @@ export default function PreviewCard({
                 tag={status.tag}
                 color={colours[status.tag]}
                 value={status?.value}
+                total={status.total}
               />
               // sort by colours
             ))

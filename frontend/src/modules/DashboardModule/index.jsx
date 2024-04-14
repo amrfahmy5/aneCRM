@@ -11,6 +11,9 @@ import RecentTable from './components/RecentTable';
 import SummaryCard from './components/SummaryCard';
 import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
+import ChartTS from './components/ChartTimeSeries';
+import ChartPies from './components/ChartPie';
+
 
 const dataTableColumns = [
   {
@@ -39,10 +42,10 @@ const dataTableColumns = [
   },
 ];
 
+
 function formatCurrency(value) {
   return `${value} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
-
 export default function DashboardModule() {
   const { result: invoiceResult, isLoading: invoiceLoading } = useFetch(() =>
     request.summary({ entity: 'invoice' })
@@ -64,6 +67,10 @@ export default function DashboardModule() {
     request.summary({ entity: 'client' })
   );
 
+  const { result: expenseResult, isLoading: expenseLoading } = useFetch(() =>
+    request.summary({ entity: 'expense' })
+  );
+
   const entityData = [
     {
       result: invoiceResult,
@@ -75,21 +82,20 @@ export default function DashboardModule() {
       isLoading: quoteLoading,
       entity: 'quote',
     },
-    // {
-    //   result: offerResult,
-    //   isLoading: offerLoading,
-    //   entity: 'offer',
-    // },
     {
       result: paymentResult,
       isLoading: paymentLoading,
       entity: 'payment',
     },
+    {
+      result: expenseResult,
+      isLoading: expenseLoading,
+      entity: 'expense',
+    },
   ];
 
   const cards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
-    console.log(data);
     if (entity === 'offer') return null;
 
     return (
@@ -97,7 +103,13 @@ export default function DashboardModule() {
         key={index}
         title={data?.entity === 'paymentInvoice' ? 'Payment' : data?.entity}
         tagColor={
-          data?.entity === 'invoice' ? 'cyan' : data?.entity === 'quote' ? 'purple' : 'green'
+          data?.entity === 'invoice'
+            ? 'cyan'
+            : data?.entity === 'quote'
+            ? 'purple'
+            : data?.entity === 'expense'
+            ? 'red'
+            : 'green'
         }
         prefix={'This month'}
         isLoading={isLoading}
@@ -108,9 +120,7 @@ export default function DashboardModule() {
 
   const statisticCards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
-
-    if (entity === 'payment') return null;
-
+    if (entity === 'payment' || entity === 'expense') return null;
     return (
       <PreviewCard
         key={index}
@@ -123,6 +133,7 @@ export default function DashboardModule() {
             tag: item?.status,
             color: 'blue',
             value: item?.percentage,
+            total: item?.total,
           }))
         }
       />
@@ -134,9 +145,9 @@ export default function DashboardModule() {
       <Row gutter={[24, 24]}>
         {cards}
         {/* <SummaryCard
-          title={'Due Balance'}
+          title={'Banalnce'}
           tagColor={'red'}
-          prefix={'Not Paid'}
+          prefix={'This month'}
           isLoading={invoiceLoading}
           tagContent={
             invoiceResult?.total_undue &&
@@ -163,6 +174,17 @@ export default function DashboardModule() {
       </Row>
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 18 }}>
+          <ChartTS expenses={expenseResult} />
+        </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 6 }}>
+          <ChartPies expenses={expenseResult} />
+        </Col>
+      </Row>
+      <div className="space30"></div>
+
+
+      <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
           <div className="whiteBox shadow" style={{ height: '100%' }}>
             <div className="pad20">
@@ -182,6 +204,8 @@ export default function DashboardModule() {
           </div>
         </Col>
       </Row>
+
+      
     </DashboardLayout>
   );
 }

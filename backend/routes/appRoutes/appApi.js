@@ -13,7 +13,7 @@ const itemController = require('@/controllers/appControllers/itemController');
 const quoteController = require('@/controllers/appControllers/quoteController');
 const supplierController = require('@/controllers/appControllers/supplierController');
 const supplierOrderController = require('@/controllers/appControllers/supplierOrderController');
-const expenseController = require('@/controllers/appControllers/expenseController');
+const expenseController = require('@/controllers/appControllers/expenseController/expenseController');
 const expenseCategoryController = require('@/controllers/appControllers/expenseCategoryController');
 const paymentInvoiceController = require('@/controllers/appControllers/paymentInvoiceController');
 
@@ -119,6 +119,7 @@ router.route('/expense/delete/:id').delete(catchErrors(expenseController.delete)
 router.route('/expense/search').get(catchErrors(expenseController.search));
 router.route('/expense/list').get(catchErrors(expenseController.list));
 router.route('/expense/filter').get(catchErrors(expenseController.filter));
+router.route('/expense/summary').get(catchErrors(expenseController.summary));
 
 // //_________________________________________________________________API for expense categories________________
 

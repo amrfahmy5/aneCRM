@@ -172,7 +172,7 @@ const request = {
   summary: async ({ entity, options = {} }) => {
     try {
       const response = await axios.get(entity + '/summary');
-
+      // console.log(response.data)
       successHandler(response, {
         notifyOnSuccess: false,
         notifyOnFailed: false,
