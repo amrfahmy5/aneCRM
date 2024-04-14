@@ -72,11 +72,11 @@ const login = async (req, res) => {
       .status(200)
       .cookie('token', token, {
         maxAge: req.body.remember ? 365 * 24 * 60 * 60 * 1000 : null, // Cookie expires after 30 days
-        sameSite: process.env.NODE_ENV === 'production' && !isLocalhost ? 'Lax' : 'none',
-        httpOnly: true,
-        secure: true,
-        domain: req.hostname,
-        Path: '/',
+        // sameSite: process.env.NODE_ENV === 'production' && !isLocalhost ? 'Lax' : 'none',
+        // httpOnly: true,
+        // secure: true,
+        // domain: req.hostname,
+        // Path: '/',
       })
       .json({
         success: true,
