@@ -67,7 +67,28 @@ export default function DataTable({ config, DataTableDropMenu }) {
     dataTableColumns,
     items
   );
+  const myFunctionSearch = (e) => {
+    var  filter, table, tr, td, i, txtValue;
+    filter = e.toUpperCase();
+    table = document.getElementsByClassName("ant-table-content")[0].getElementsByTagName("table")[0];
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      const tableData = tr[i].getElementsByTagName("td");
+      let allTextContent = '';
+      for (let ind = 0; ind < tableData.length; ind++) {
+        allTextContent += tableData[ind].innerText;
+      }
 
+      if (allTextContent) {
+        if (allTextContent.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+
+  }
   return (
     <>
       <div ref={tableHeader}>
@@ -75,6 +96,8 @@ export default function DataTable({ config, DataTableDropMenu }) {
           title={DATATABLE_TITLE}
           ghost={true}
           extra={[
+            <input placeholder='Search... '  onChange={(e) => myFunctionSearch(e.target.value)} />,
+
             <Button onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<RedoOutlined />}>
               Refresh
             </Button>,

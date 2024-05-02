@@ -24,9 +24,31 @@ export default function DataTable({ config, DropDownRowMenu, AddNewItem }) {
       ),
     },
   ];
-
+  
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
 
+  const myFunctionSearch = (e) => {
+    var  filter, table, tr, td, i, txtValue;
+    filter = e.toUpperCase();
+    table = document.getElementsByClassName("ant-table-content")[0].getElementsByTagName("table")[0];
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      const tableData = tr[i].getElementsByTagName("td");
+      let allTextContent = '';
+      for (let ind = 0; ind < tableData.length; ind++) {
+        allTextContent += tableData[ind].innerText;
+      }
+
+      if (allTextContent) {
+        if (allTextContent.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+
+  }
   const { pagination, items } = listResult;
 
   const dispatch = useDispatch();
@@ -53,6 +75,7 @@ export default function DataTable({ config, DropDownRowMenu, AddNewItem }) {
           title={DATATABLE_TITLE}
           ghost={false}
           extra={[
+            <input placeholder='Search... '  onChange={(e) => myFunctionSearch(e.target.value)} />,
             <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
               Refresh
             </Button>,
@@ -73,24 +96,24 @@ export default function DataTable({ config, DropDownRowMenu, AddNewItem }) {
         expandable={
           expandedRowData.length
             ? {
-                expandedRowRender: (record) => (
-                  <Descriptions title="" bordered column={1}>
-                    {expandedRowData.map((item, index) => {
-                      return (
-                        <Descriptions.Item key={index} label={item.title}>
-                          {item.render?.(record[item.dataIndex])?.children
-                            ? item.render?.(record[item.dataIndex])?.children
-                            : item.render?.(record[item.dataIndex])
+              expandedRowRender: (record) => (
+                <Descriptions title="" bordered column={1}>
+                  {expandedRowData.map((item, index) => {
+                    return (
+                      <Descriptions.Item key={index} label={item.title}>
+                        {item.render?.(record[item.dataIndex])?.children
+                          ? item.render?.(record[item.dataIndex])?.children
+                          : item.render?.(record[item.dataIndex])
                             ? item.render?.(record[item.dataIndex])
                             : Array.isArray(item.dataIndex)
-                            ? record[item.dataIndex[0]]?.[item.dataIndex[1]]
-                            : record[item.dataIndex]}
-                        </Descriptions.Item>
-                      );
-                    })}
-                  </Descriptions>
-                ),
-              }
+                              ? record[item.dataIndex[0]]?.[item.dataIndex[1]]
+                              : record[item.dataIndex]}
+                      </Descriptions.Item>
+                    );
+                  })}
+                </Descriptions>
+              ),
+            }
             : null
         }
       />
