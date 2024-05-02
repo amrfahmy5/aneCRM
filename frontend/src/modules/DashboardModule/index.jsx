@@ -13,6 +13,7 @@ import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 import ChartTS from './components/ChartTimeSeries';
 import ChartPies from './components/ChartPie';
+import ChartBars from './components/ChartBar';
 
 
 const dataTableColumns = [
@@ -178,7 +179,10 @@ export default function DashboardModule() {
           <ChartTS expenses={expenseResult} />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 6 }}>
-          <ChartPies expenses={expenseResult} />
+          <ChartPies expenses={expenseResult} title={"Expense Category"}/>
+        </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+          <ChartBars expenses={expenseResult} title={"Expenses By Personal Wallet"} />
         </Col>
       </Row>
       <div className="space30"></div>

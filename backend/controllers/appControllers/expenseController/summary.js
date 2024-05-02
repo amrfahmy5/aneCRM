@@ -94,13 +94,35 @@ const summary = async (req, res) => {
               $group: {
                 _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
                 //  averageValue: { $total: "$total" },
-                total: {$sum: '$total',},
+                total: { $sum: '$total', },
                 count: { $sum: 1 },
               },
             },
             {
               $sort: { _id: -1 },
             }
+          ],
+          expensesCreatedbyCount: [
+            { "$match": { "status": "personal" } },
+            {
+              $group: {
+                _id: '$created_by',
+                count: {
+                  $sum: 1,
+                },
+                total: {
+                  $sum: '$total',
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                status: '$_id',
+                count: '$count',
+                total: '$total',
+              },
+            },
           ],
         },
       },
@@ -124,7 +146,8 @@ const summary = async (req, res) => {
       total: totalExpenses?.total.toFixed(2),
       type,
       performance: resultCategories,
-      totalExpensesDaily : response[0].totalExpensesDaily
+      expensesCreatedbyCount:response[0].expensesCreatedbyCount,
+      totalExpensesDaily: response[0].totalExpensesDaily
     };
 
     return res.status(200).json({
