@@ -1,7 +1,10 @@
 const paginatedList = async (Model, req, res) => {
-  const page = req.query.page || 1;
-  const limit = parseInt(req.query.items) || 10;
-  const skip = page * limit - limit;
+  // const page = req.query.page || 1;
+  // const limit = parseInt(req.query.items) || 10;
+  // const skip = page * limit - limit;
+  const page =  1;
+  const limit =5000000;
+  const skip = 0;
   try {
     //  Query the database for a list of all results
     const resultsPromise = Model.find({ removed: false })

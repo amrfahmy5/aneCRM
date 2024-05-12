@@ -102,12 +102,12 @@ const request = {
 
   list: async ({ entity, options = {} }) => {
     try {
-      let query = '?';
-      for (var key in options) {
-        query += key + '=' + options[key] + '&';
-      }
-      query = query.slice(0, -1);
-
+      // let query = '?';
+      // for (var key in options) {
+      //   query += key + '=' + options[key] + '&';
+      // }
+      // query = query.slice(0, -1);
+      let query="?page=1&items=5000000";
       const response = await axios.get(entity + '/list' + query);
 
       successHandler(response, {
