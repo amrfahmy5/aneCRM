@@ -92,8 +92,7 @@ const summary = async (req, res) => {
           totalExpensesDaily: [
             {
               $group: {
-                _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },
-                //  averageValue: { $total: "$total" },
+                _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },//'%Y-%m-%d'
                 total: { $sum: '$total', },
                 count: { $sum: 1 },
               },
@@ -127,8 +126,34 @@ const summary = async (req, res) => {
         },
       },
     ]);
-
-    // console.log(response[0].totalExpensesDaily);
+    const response2 = await Model.aggregate([
+      {
+        $match: {
+          removed: false
+        },
+      },
+      {
+        $facet: {
+          totalExpenseMonthly: [
+            {
+              $group: {
+                _id: {
+                  $dateToString: {
+                    date: '$date' ,
+                    format: "%Y-%m"
+                  }
+                },
+                total: { $sum: '$total', },
+              },
+            },
+            {
+              $sort: { _id: -1 },
+            }
+          ],
+        },
+      },
+    ]);
+    const totalExpenseMonthly =  response2[0].totalExpenseMonthly || [];
 
     const totalExpenses = response[0].totalExpense ? response[0].totalExpense[0] : 0;
 
@@ -147,7 +172,8 @@ const summary = async (req, res) => {
       type,
       performance: resultCategories,
       expensesCreatedbyCount:response[0].expensesCreatedbyCount,
-      totalExpensesDaily: response[0].totalExpensesDaily
+      totalExpensesDaily: response[0].totalExpensesDaily,
+      totalExpenseMonthly
     };
 
     return res.status(200).json({

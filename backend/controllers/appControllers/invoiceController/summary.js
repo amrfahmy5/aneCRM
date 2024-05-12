@@ -129,16 +129,65 @@ const summary = async (req, res) => {
               },
             },
           ],
+          totalInvoiceMonthly: [
+            {
+              $group: {
+                _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' }},
+                // _id: { $month: { $toDate: "$date" }  },
+                // _id: {
+                //   $dateToString: {
+                //     date: '$date' ,
+                //     format: "%Y-%m"
+                //   }
+                // },
+                // _id: { month: { $month: { $toDate: "$date" } } },
+                // _id: {$month: "$date"}, 
+                
+                //  averageValue: { $total: "$total" },
+                total: { $sum: '$subTotal', },
+              },
+            },
+            {
+              $sort: { _id: -1 },
+            }
+          ],
         },
       },
     ]);
-
+    const response2 = await Model.aggregate([
+      {
+        $match: {
+          removed: false
+        },
+      },
+      {
+        $facet: {
+          totalInvoiceMonthly: [
+            {
+              $group: {
+                _id: {
+                  $dateToString: {
+                    date: '$date' ,
+                    format: "%Y-%m"
+                  }
+                },
+                total: { $sum: '$subTotal', },
+              },
+            },
+            {
+              $sort: { _id: -1 },
+            }
+          ],
+        },
+      },
+    ]);
     let result = [];
 
     const totalInvoices = response[0].totalInvoice ? response[0].totalInvoice[0] : 0;
     const statusResult = response[0].statusCounts || [];
     const paymentStatusResult = response[0].paymentStatusCounts || [];
     const overdueResult = response[0].overdueCounts || [];
+    const totalInvoiceMonthly =  response2[0].totalInvoiceMonthly || [];
 
     const statusResultMap = statusResult.map((item) => {
       return {
@@ -203,6 +252,7 @@ const summary = async (req, res) => {
       total_undue: unpaid.length > 0 ? unpaid[0].total_amount.toFixed(2) : 0,
       type,
       performance: result,
+      totalInvoiceMonthly
     };
 
     return res.status(200).json({

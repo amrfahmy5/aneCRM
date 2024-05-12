@@ -12,6 +12,8 @@ import SummaryCard from './components/SummaryCard';
 import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 import ChartTS from './components/ChartTimeSeries';
+import ChartTSInvoice from './components/ChartTimeSeriesInvoice';
+
 import ChartPies from './components/ChartPie';
 import ChartBars from './components/ChartBar';
 
@@ -107,10 +109,10 @@ export default function DashboardModule() {
           data?.entity === 'invoice'
             ? 'cyan'
             : data?.entity === 'quote'
-            ? 'purple'
-            : data?.entity === 'expense'
-            ? 'red'
-            : 'green'
+              ? 'purple'
+              : data?.entity === 'expense'
+                ? 'red'
+                : 'green'
         }
         prefix={'This month'}
         isLoading={isLoading}
@@ -175,11 +177,22 @@ export default function DashboardModule() {
       </Row>
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 18 }}>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+          <ChartTSInvoice title="Monthly Sales" Date={invoiceResult?.totalInvoiceMonthly} />
+        </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+          <ChartTSInvoice title="Monthly Expense" Date={expenseResult?.totalExpenseMonthly} />
+        </Col>
+      </Row>
+      <div className="space30"></div>
+
+      <Row gutter={[24, 24]}>
+
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
           <ChartTS expenses={expenseResult} />
         </Col>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 6 }}>
-          <ChartPies expenses={expenseResult} title={"Expense Category"}/>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+          <ChartPies expenses={expenseResult} title={"Expense Category"} />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
           <ChartBars expenses={expenseResult} title={"Expenses By Personal Wallet"} />
@@ -209,7 +222,7 @@ export default function DashboardModule() {
         </Col>
       </Row>
 
-      
+
     </DashboardLayout>
   );
 }
