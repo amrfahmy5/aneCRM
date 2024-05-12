@@ -38,7 +38,7 @@ function ChartBars({ expenses, title }) {
         labels: expenses?.expensesCreatedbyCount?.map((expense) => expense?.status),
         datasets: [
             {
-                label:"",
+                label: "",
                 data: expenses?.expensesCreatedbyCount?.map((expense) => expense?.total),
                 backgroundColor: [
                     '#e9724d',
@@ -62,8 +62,9 @@ function ChartBars({ expenses, title }) {
                 }}
             >
                 <h3 style={{ color: '#22075e', marginBottom: 30 }}>{title}</h3>
+                <Bar data={oilData} />
+
             </div>
-            <Bar data={oilData} />
         </div>
     );
 }

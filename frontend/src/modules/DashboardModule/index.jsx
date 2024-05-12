@@ -175,6 +175,23 @@ export default function DashboardModule() {
           />
         </Col>
       </Row>
+
+
+
+
+      <div className="space30"></div>
+      <Row gutter={[24, 24]}>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
+          <ChartTS expenses={expenseResult} />
+        </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
+          <ChartPies expenses={expenseResult} title={"Expense Category"} />
+        </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
+          <ChartBars expenses={expenseResult} title={"Expenses By Wallet"} />
+        </Col>
+      </Row>
+
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
@@ -184,23 +201,9 @@ export default function DashboardModule() {
           <ChartTSInvoice title="Monthly Expense" Date={expenseResult?.totalExpenseMonthly} />
         </Col>
       </Row>
+
+
       <div className="space30"></div>
-
-      <Row gutter={[24, 24]}>
-
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartTS expenses={expenseResult} />
-        </Col>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartPies expenses={expenseResult} title={"Expense Category"} />
-        </Col>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartBars expenses={expenseResult} title={"Expenses By Personal Wallet"} />
-        </Col>
-      </Row>
-      <div className="space30"></div>
-
-
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
           <div className="whiteBox shadow" style={{ height: '100%' }}>

@@ -68,7 +68,6 @@ export default function InvoiceForm({ subTotal = 0, current = null }) {
           <Form.Item
             label="Number"
             name="number"
-            initialValue={1}
             rules={[
               {
                 required: true,

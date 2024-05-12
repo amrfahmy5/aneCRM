@@ -102,7 +102,7 @@ const summary = async (req, res) => {
             }
           ],
           expensesCreatedbyCount: [
-            { "$match": { "status": "personal" } },
+            // { "$match": { "status": "personal" } },
             {
               $group: {
                 _id: '$created_by',
