@@ -1,4 +1,4 @@
-//- //- invoice without parameter ------------------------------------------------------------------------------
+//- invoice without parameter ------------------------------------------------------------------------------
 doctype html
 html
   head
@@ -217,7 +217,7 @@ html
         white-space: nowrap;
         font-weight: 700;
         font-size: 15px;
-        text-align: right;
+        text-align: center;
       }
       tbody{
         border-bottom: 1px solid #c2e0f2;
@@ -226,11 +226,11 @@ html
        font-size:10px;
       }
       .table-invoice .service, .table-invoice .desc {
-        text-align: left;
+        text-align: center;
       }
       .table-invoice td {
         padding: 10px ;
-        text-align: right;
+        text-align: center;
         font-size: 12px;
       }
       .table-invoice td.service, .table-invoice td.desc {
@@ -268,18 +268,18 @@ html
         text-align: center;
       }
       .companyName{
-        font-size:20px;
+        font-size:16px;
         line-height: 0px;
         color:#cd2027;
-
       }
       .companyDescription{
-        font-size:10px;
+        font-size:11px;
         line-height: 10px;
         color:#2d67b2;
+        
       }
       .companyPhone{
-        font-size:13px;
+        font-size:12px;
       }
       .tableHeader{
         color:#52008c;
@@ -300,31 +300,31 @@ html
           .right.company-info
               p.companyName AlNabilEquipment
               p.companyDescription Import Kitchen & hotel & coffee equipment
-              p.companyPhone.strong tel : 
+              p.companyPhone.strong tel: 
                span.normal +201121833830
               
         .col.col-24
           .space  
-        .left.col-14
+        .left.col-12
             h1.invoice
-              | Quote 
+              | INVOICE 
             div 
              .invoiceDate
               .col.col-8
                 span.strong Date : 
-                span.normal #{moment(model.date).format("DD/MM/YYYY")}
+                span.normal 2/22/2014
               .col.col-8 
-                span.strong Invoice Number : 
-                span.normal # #{model.number}
+                span.strong Invoice Number :
+                span.normal | 55555
               
         .right.col-10
             .billTo
                 p.strong Bill To : 
-                 span.normal #{model.client.company}
+                 span.normal ANE
                 p.strong address :
-                 span.normal #{model.client.address}
+                 span.normal ANE
                 p.strong phone : 
-                 span.normal #{model.client.email}
+                 span.normal 01148593387
                 
         .col.col-24
           .space  
@@ -333,27 +333,21 @@ html
           thead
             tr.tableHeader
               th.service ITEM
-              
+              th Description
               th QTY
               th PRICE
               th TOTAL
           tbody.tableBody
-            each item in model.items
-              tr
-                td.service #{item.itemName}
-                  span #{item.description}
-                td.qty #{item.quantity}  
-                td.unit #{item.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-                td.total #{item.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              tr
-                td(colspan='3') SUBTOTAL
-                td.total #{model.subTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              tr
-                td(colspan='3') TAX #{model.taxRate*100} %
-                td.total #{model.taxTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              tr
-                td.grand.total(colspan='3') GRAND TOTAL
-                td.grand.total #{model.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+            tr
+              td The Hunger Games
+              td El snort testosterone trophy driving gloves handsome
+              td 2
+              td 15.500
+              td 30.000
       .col.col-24.notes
-        .space     
-        p.strong #{model.note}
+       .space
+         p.strong Invoice was created on a computer and is valid without the signature and seal.
+      .col.col-24
+       .space   
+       footer.footer-invoice
+         | Invoice was created on a computer and is valid without the signature and seal.

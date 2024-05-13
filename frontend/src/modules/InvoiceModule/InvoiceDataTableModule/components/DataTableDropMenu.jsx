@@ -52,9 +52,9 @@ export default function DataTableDropMenu({ row, entity }) {
       <Menu.Item key={`${uniqueId()}`} icon={<EditOutlined />} onClick={Edit}>
         Edit
       </Menu.Item>
-      {/* <Menu.Item key={`${uniqueId()}`} icon={<FilePdfOutlined />} onClick={Download}>
+      <Menu.Item key={`${uniqueId()}`} icon={<FilePdfOutlined />} onClick={Download}>
         Download
-      </Menu.Item> */}
+      </Menu.Item>
       <Menu.Item key={`${uniqueId()}`} icon={<DeleteOutlined />} onClick={Delete}>
         Delete
       </Menu.Item>

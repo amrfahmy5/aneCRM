@@ -13,6 +13,7 @@ import ItemRow from '@/modules/ErpPanelModule/ItemRow';
 import MoneyInputFormItem from '@/components/MoneyInputFormItem';
 
 import calculate from '@/utils/calculate';
+import TextArea from 'antd/lib/input/TextArea';
 
 export default function InvoiceForm({ subTotal = 0, current = null }) {
   const [total, setTotal] = useState(0);
@@ -116,7 +117,7 @@ export default function InvoiceForm({ subTotal = 0, current = null }) {
         </Col>
         <Col className="gutter-row" span={9}>
           <Form.Item label="Note" name="note">
-            <Input />
+            <TextArea />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={8}>
