@@ -13,16 +13,18 @@ let pdf = require('html-pdf');
 
 router.route('/print/:modelName/:id').get(async (req, res) =>{//Invoice,Quote
   try {
-  const { modelName,id } = req.params;
-  let Model =  (modelName=="quote"||modelName=="Quote")?ModelQuote:ModelInvoice;
+  let { modelName,id } = req.params;
+  modelName=(modelName=="quote"||modelName=="Quote")?"Quote":"Invoice";
+  let Model =  (modelName=="Quote")?ModelQuote:ModelInvoice;
   const result = await Model.findOne({ _id: id });
-  const html =await pug.renderFile(process.env.projectPath +'views/pdf/' + modelName + '.pug', {
+  const html =await pug.renderFile('views/pdf/' + modelName + '.pug', {
     model: result,
     moment: moment,
   });
     res.send(html);
   }
   catch (err) {
+    console.log(err);
     res.send(err);
   }
 });
