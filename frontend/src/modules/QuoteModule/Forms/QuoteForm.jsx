@@ -13,6 +13,7 @@ import ItemRow from '@/modules/ErpPanelModule/ItemRow';
 import MoneyInputFormItem from '@/components/MoneyInputFormItem';
 
 import calculate from '@/utils/calculate';
+import TextArea from 'antd/lib/input/TextArea';
 
 export default function QuoteForm({ subTotal = 0, current = null }) {
   const [total, setTotal] = useState(0);
@@ -117,7 +118,7 @@ export default function QuoteForm({ subTotal = 0, current = null }) {
         </Col>
         <Col className="gutter-row" span={9}>
           <Form.Item label="Note" name="note">
-            <Input />
+            <TextArea/>
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={8}>
@@ -231,6 +232,7 @@ export default function QuoteForm({ subTotal = 0, current = null }) {
                 bordered={false}
                 options={[
                   { value: 0, label: 'Tax 0 %' },
+                  { value: 0.14, label: 'Tax 14 %' },
                   { value: 0.19, label: 'Tax 19 %' },
                 ]}
               ></Select>

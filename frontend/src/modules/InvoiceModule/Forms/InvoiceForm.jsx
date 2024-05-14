@@ -231,6 +231,7 @@ export default function InvoiceForm({ subTotal = 0, current = null }) {
                 bordered={false}
                 options={[
                   { value: 0, label: 'Tax 0 %' },
+                  { value: 0.14, label: 'Tax 14 %' },
                   { value: 0.19, label: 'Tax 19 %' },
                 ]}
               ></Select>

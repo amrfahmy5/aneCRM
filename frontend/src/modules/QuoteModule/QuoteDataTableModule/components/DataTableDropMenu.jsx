@@ -38,7 +38,11 @@ export default function DataTableDropMenu({ row, entity }) {
     modal.open();
   }
   function Download() {
-    window.open(`${DOWNLOAD_BASE_URL}${entity}/${row._id}`, '_blank');
+    window.open(
+      `${DOWNLOAD_BASE_URL}print/${entity}/${row._id}`,
+      '_blank'
+    );
+    // window.open(`${DOWNLOAD_BASE_URL}${entity}/${row._id}`, '_blank');
   }
   return (
     <Menu style={{ minWidth: 130 }}>

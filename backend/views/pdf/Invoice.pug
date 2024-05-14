@@ -258,7 +258,7 @@ html
         
       }
       .footer-invoice {
-        margin-top:30px
+        margin-top:30px;
         color: #5d6975;
         width: 100%;
         position: absolute;
@@ -292,11 +292,13 @@ html
        text-align:right;
        font-size:15px;
       }
- 
+      .multiline {
+        white-space: pre-wrap;
+      }
   body
       header.clearfix
         .top-area
-          img.logo.left(src="https://www.ane-eg.com/images/banners/banner-1.png")
+          img.logo.left(src="/banner-1.png")
           .right.company-info
               p.companyName AlNabilEquipment
               p.companyDescription Import Kitchen & hotel & coffee equipment
@@ -356,7 +358,7 @@ html
               td.grand.total #{model.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
       .col.col-24.notes
         .space     
-        p.strong #{model.note}
+        p.strong.multiline #{model.note}
       //- .col.col-24
       //-   .space     
       //-   footer.footer-invoice
