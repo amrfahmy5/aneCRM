@@ -11,7 +11,7 @@ const pug = require('pug');
 const moment = require('moment');
 let pdf = require('html-pdf');
 
-outer.route('/amr').get(async (req, res) =>{//Invoice,Quote
+router.route('/amr').get(async (req, res) =>{//Invoice,Quote
   res.send("hiiii");
   console.log("hiiiihiiiihiiii")
 
