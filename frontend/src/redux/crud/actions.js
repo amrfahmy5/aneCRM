@@ -53,6 +53,7 @@ export const crud = {
             current: 1,
             pageSize: 5000000,
             total: parseInt(data.pagination.count, 10),
+            
           },
         };
         dispatch({
