@@ -150,13 +150,56 @@ const summary = async (req, res) => {
               $sort: { _id: 1 },
             }
           ],
+          expenseByPaymentMode: [
+            {
+              $lookup: {
+                from: 'paymentmodes',
+                localField: 'paymentMode',
+                foreignField: '_id',
+                as: 'paymentMode.name',
+              },
+            },
+            {
+              $group: {
+                _id: '$paymentMode',
+                count: {
+                  $sum: 1,
+                },
+                total: {
+                  $sum: '$total',
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                mode: '$_id',
+                count: '$count',
+                total: '$total',
+              },
+            },
+          ]
         },
       },
     ]);
+    // console.log(response2[0].expenseByPaymentMode[0])
+    // console.log(response2[0].expenseByPaymentMode[0].total)
+    // console.log(response2[0].expenseByPaymentMode[0].mode.name[0].name)
+
+    const totalExpenseByPM =  response2[0].expenseByPaymentMode || [];
+    let expensesByPM = []
+    totalExpenseByPM.forEach(i => {
+      let tempPM = {
+        name : i.mode.name[0].name,
+        totalExpense : i.total,
+      }
+      expensesByPM.push(tempPM);
+    });
+    
+    console.log(expensesByPM);
     const totalExpenseMonthly =  response2[0].totalExpenseMonthly || [];
 
     const totalExpenses = response[0].totalExpense ? response[0].totalExpense[0] : 0;
-
     let resultCategories = [];
     response[0].expenseCategoryCounts.map((e) => {
       let temp = {
@@ -173,7 +216,8 @@ const summary = async (req, res) => {
       performance: resultCategories,
       expensesCreatedbyCount:response[0].expensesCreatedbyCount,
       totalExpensesDaily: response[0].totalExpensesDaily,
-      totalExpenseMonthly
+      totalExpenseMonthly,
+      expensesByPM
     };
 
     return res.status(200).json({

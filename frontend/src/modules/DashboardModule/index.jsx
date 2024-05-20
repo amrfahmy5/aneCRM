@@ -9,6 +9,8 @@ import useFetch from '@/hooks/useFetch';
 import RecentTable from './components/RecentTable';
 
 import SummaryCard from './components/SummaryCard';
+import SummaryCardPayment from './components/SummaryPayment';
+
 import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 import ChartTS from './components/ChartTimeSeries';
@@ -74,6 +76,32 @@ export default function DashboardModule() {
     request.summary({ entity: 'expense' })
   );
 
+  let paymentInvoiceEntity = [];
+  if (expenseResult?.expensesByPM.length > 0) {
+    var res = expenseResult?.expensesByPM.map(item => {
+      let keys1 = Object.keys(item);
+      let max = 0;
+      const temp = paymentResult?.paymentInvoiceByPM.reduce((prev, item2) => {
+        let maxTemp = keys1.filter(key => item['name'] === item2['name']).length;
+
+        if (maxTemp > max) {
+          max = maxTemp;
+          prev = item2;
+        }
+        return prev;
+      }, {})
+
+      if (temp) {
+        return { ...item, ...temp }
+      }
+    });
+    res.forEach(i => {
+      paymentInvoiceEntity.push({ entity: `paymentMethod`, result: i })
+    });
+  }
+
+
+
   const entityData = [
     {
       result: invoiceResult,
@@ -95,12 +123,34 @@ export default function DashboardModule() {
       isLoading: expenseLoading,
       entity: 'expense',
     },
+    ...paymentInvoiceEntity
   ];
 
   const cards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
     if (entity === 'offer') return null;
+    if (entity === "paymentMethod") {
+      console.log()
+      return (
+        <SummaryCardPayment
+          key={index}
+          title={data?.result?.name}
+          tagColor1={'green'}
+          tagColor2={'red'}
+          tagColor3={'black'}
+          prefix1={'Payment'}
+          prefix2={'Expense'}
 
+          isLoading={isLoading}
+          tagContent1={result?.totalPaymentInvoice && formatCurrency(result?.totalPaymentInvoice)}
+          tagContent2={result?.totalExpense && formatCurrency(result?.totalExpense)}
+          tagContent3={(result?.totalPaymentInvoice-result?.totalExpense)&& formatCurrency(result?.totalPaymentInvoice-result?.totalExpense )}
+
+
+        />
+      );
+    }
+    console.log(data?.entity + " " + result?.total)
     return (
       <SummaryCard
         key={index}
@@ -154,7 +204,7 @@ export default function DashboardModule() {
           isLoading={invoiceLoading}
           tagContent={
             invoiceResult?.total_undue &&
-            ` ${invoiceResult?.total_undue} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g , ' ')
+            ` ${invoiceResult?.total_undue} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
           }
         /> */}
       </Row>

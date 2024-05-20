@@ -74,6 +74,10 @@ export default function Lead() {
       dataIndex: ['total'],
     },
     {
+      title: 'Payment Mode',
+      dataIndex: ['paymentMode','name'],
+    },
+    {
       title: 'date',
       dataIndex: ['date'],
       render: (date) => dayjs(date).format('DD/MM/YYYY'),

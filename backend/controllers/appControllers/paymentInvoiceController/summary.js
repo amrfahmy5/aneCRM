@@ -56,6 +56,59 @@ const summary = async (req, res) => {
       },
     ]);
 
+    const response2 = await Model.aggregate([
+      {
+        $match: {
+          removed: false
+        },
+      },
+      {
+        $facet: {
+          invoicePaymentByPaymentMode: [
+            {
+              $lookup: {
+                from: 'paymentmodes',
+                localField: 'paymentMode',
+                foreignField: '_id',
+                as: 'paymentMode.name',
+              },
+            },
+            {
+              $group: {
+                _id: '$paymentMode',
+                count: {
+                  $sum: 1,
+                },
+                totalPayment: {
+                  $sum: '$amount',
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                mode: '$_id',
+                count: '$count',
+                total: '$totalPayment',
+              },
+            },
+          ]
+        },
+      },
+    ]);
+
+    const invoicePaymentByPaymentMode =  response2[0].invoicePaymentByPaymentMode || [];
+    let paymentInvoiceByPM = []
+    invoicePaymentByPaymentMode.forEach(i => {
+      let temp = {
+        name : i.mode.name[0].name,
+        totalPaymentInvoice : i.total,
+      }
+      paymentInvoiceByPM.push(temp);
+    });
+    result[0].paymentInvoiceByPM =paymentInvoiceByPM;
+    console.log(paymentInvoiceByPM);
+
     return res.status(200).json({
       success: true,
       result: result.length > 0 ? result[0] : { count: 0, total: 0 },
