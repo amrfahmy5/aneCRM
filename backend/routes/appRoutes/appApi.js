@@ -14,6 +14,8 @@ const quoteController = require('@/controllers/appControllers/quoteController');
 const supplierController = require('@/controllers/appControllers/supplierController');
 const supplierOrderController = require('@/controllers/appControllers/supplierOrderController');
 const expenseController = require('@/controllers/appControllers/expenseController/expenseController');
+const withdrawalsController = require('@/controllers/appControllers/withDrawalsController/withdrawalsController');
+
 const expenseCategoryController = require('@/controllers/appControllers/expenseCategoryController');
 const paymentInvoiceController = require('@/controllers/appControllers/paymentInvoiceController');
 
@@ -109,6 +111,17 @@ router.route('/supplierOrder/delete/:id').delete(catchErrors(supplierOrderContro
 router.route('/supplierOrder/search').get(catchErrors(supplierOrderController.search));
 router.route('/supplierOrder/list').get(catchErrors(supplierOrderController.list));
 router.route('/supplierOrder/filter').get(catchErrors(supplierOrderController.filter));
+
+// //_________________________________________________________________API for Withdrawals_____________________
+
+router.route('/withdrawals/create').post(catchErrors(withdrawalsController.create));
+router.route('/withdrawals/read/:id').get(catchErrors(withdrawalsController.read));
+router.route('/withdrawals/update/:id').patch(catchErrors(withdrawalsController.update));
+router.route('/withdrawals/delete/:id').delete(catchErrors(withdrawalsController.delete));
+router.route('/withdrawals/search').get(catchErrors(withdrawalsController.search));
+router.route('/withdrawals/list').get(catchErrors(withdrawalsController.list));
+router.route('/withdrawals/filter').get(catchErrors(withdrawalsController.filter));
+router.route('/withdrawals/summary').get(catchErrors(withdrawalsController.summary));
 
 // //_________________________________________________________________API for expenses_____________________
 

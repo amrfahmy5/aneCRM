@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const Model = mongoose.model('PaymentInvoice');
+const Model = mongoose.model('Withdrawals');
+const ModelWithdrawalsCategory = mongoose.model('Withdrawals');
 
 const summary = async (req, res) => {
   try {
@@ -25,8 +26,8 @@ const summary = async (req, res) => {
     let startDate = currentDate.clone().startOf(defaultType);
     let endDate = currentDate.clone().endOf(defaultType);
 
-    // get total amount of invoices
-    const result = await Model.aggregate([
+    const statuses = ['draft', 'pending', 'overdue', 'paid', 'unpaid', 'partially'];
+    const response = await Model.aggregate([
       {
         $match: {
           removed: false,
@@ -37,25 +38,30 @@ const summary = async (req, res) => {
         },
       },
       {
-        $group: {
-          _id: null, // Group all documents into a single group
-          count: {
-            $sum: 1,
-          },
-          total: {
-            $sum: '$amount',
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0, // Exclude _id from the result
-          count: 1,
-          total: 1,
+        $facet: {
+          totalWithdrawalss: [
+            {
+              $group: {
+                _id: null,
+                total: {
+                  $sum: '$total',
+                },
+                count: {
+                  $sum: 1,
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                total: '$total',
+                count: '$count',
+              },
+            },
+          ]
         },
       },
     ]);
-
     const response2 = await Model.aggregate([
       {
         $match: {
@@ -64,7 +70,7 @@ const summary = async (req, res) => {
       },
       {
         $facet: {
-          invoicePaymentByPaymentMode: [
+          withdrawalsByPaymentMode: [
             {
               $lookup: {
                 from: 'paymentmodes',
@@ -79,8 +85,8 @@ const summary = async (req, res) => {
                 count: {
                   $sum: 1,
                 },
-                totalPayment: {
-                  $sum: '$amount',
+                total: {
+                  $sum: '$total',
                 },
               },
             },
@@ -89,33 +95,42 @@ const summary = async (req, res) => {
                 _id: 0,
                 mode: '$_id',
                 count: '$count',
-                total: '$totalPayment',
+                total: '$total',
               },
             },
           ]
         },
       },
     ]);
-
-    const invoicePaymentByPaymentMode =  response2[0].invoicePaymentByPaymentMode || [];
-    let paymentInvoiceByPM = []
-    invoicePaymentByPaymentMode.forEach(i => {
-      let temp = {
+    const totalWithdrawalsByPM =  response2[0].withdrawalsByPaymentMode || [];
+    let withdrawalssByPM = []
+    totalWithdrawalsByPM.forEach(i => {
+      let tempPM = {
         name : i.mode.name[0].name,
-        totalPaymentInvoice : i.total,
+        totalWithdrawals : i.total,
       }
-      paymentInvoiceByPM.push(temp);
+      withdrawalssByPM.push(tempPM);
     });
-    result[0].paymentInvoiceByPM =paymentInvoiceByPM;
-    // console.log(paymentInvoiceByPM);
+    
+
+    const totalWithdrawalss = response[0].totalWithdrawalss ? response[0].totalWithdrawalss[0] : 0;
+
+
+
+
+    const finalResult = {
+      total: totalWithdrawalss?.total.toFixed(2),
+      type,
+      withdrawalssByPM
+    };
 
     return res.status(200).json({
       success: true,
-      result: result.length > 0 ? result[0] : { count: 0, total: 0 },
-      message: `Successfully fetched the summary of payment invoices for the last ${defaultType}`,
+      result: finalResult,
+      message: `Successfully found all Withdrawalss for the last ${defaultType}`,
     });
   } catch (error) {
-    console.log('error', error);
+    console.log(error);
     return res.status(500).json({
       success: false,
       result: null,

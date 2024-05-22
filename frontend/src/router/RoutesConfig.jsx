@@ -182,6 +182,27 @@ export const routesConfig = [
     component: 'Expense/ExpenseUpdate',
   },
 
+
+  {
+    path: '/withdrawals',
+    component: 'Withdrawals/index',
+  },
+  {
+    path: '/withdrawals/create',
+    component: 'Withdrawals/WithdrawalsCreate',
+  },
+  {
+    path: '/withdrawals/read/:id',
+    component: 'Withdrawals/WithdrawalsRead',
+  },
+  {
+    path: '/withdrawals/update/:id',
+    component: 'Withdrawals/WithdrawalsUpdate',
+  },
+
+
+
+
   {
     path: '/expenseCategory',
     component: 'ExpenseCategory/index',

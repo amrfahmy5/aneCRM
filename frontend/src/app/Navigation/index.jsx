@@ -31,6 +31,8 @@ const SIDEBAR_MENU = [
   { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
   { key: '/expenseCategory', icon: <GatewayOutlined/>, title: 'Expense Category' },
+  { key: '/Withdrawals', icon: <DollarOutlined/>, title: 'Withdrawals' },
+
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
   { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
 

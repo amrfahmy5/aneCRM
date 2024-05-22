@@ -72,11 +72,15 @@ export default function DashboardModule() {
     request.summary({ entity: 'client' })
   );
 
+  const { result: withdrawalsResult, isLoading: withdrawalsLoading } = useFetch(() =>
+    request.summary({ entity: 'withdrawals' })
+  );
   const { result: expenseResult, isLoading: expenseLoading } = useFetch(() =>
     request.summary({ entity: 'expense' })
   );
 
-  let paymentInvoiceEntity = [];
+  console.log(withdrawalsResult)
+  let resEntityDate = [];
   if (expenseResult?.expensesByPM.length > 0) {
     var res = expenseResult?.expensesByPM.map(item => {
       let keys1 = Object.keys(item);
@@ -95,8 +99,27 @@ export default function DashboardModule() {
         return { ...item, ...temp }
       }
     });
-    res.forEach(i => {
-      paymentInvoiceEntity.push({ entity: `paymentMethod`, result: i })
+
+    var res2 = res.map(item => {
+      let keys1 = Object.keys(item);
+      let max = 0;
+      const temp = withdrawalsResult?.withdrawalssByPM.reduce((prev, item2) => {
+        let maxTemp = keys1.filter(key => item['name'] === item2['name']).length;
+
+        if (maxTemp > max) {
+          max = maxTemp;
+          prev = item2;
+        }
+        return prev;
+      }, {})
+
+      if (temp) {
+        return { ...item, ...temp }
+      }
+    });
+
+    res2.forEach(i => {
+      resEntityDate.push({ entity: `paymentMethod`, result: i })
     });
   }
 
@@ -123,34 +146,50 @@ export default function DashboardModule() {
       isLoading: expenseLoading,
       entity: 'expense',
     },
-    ...paymentInvoiceEntity
+    {
+      result: withdrawalsResult,
+      isLoading: withdrawalsLoading,
+      entity: 'withdrawals',
+    },
   ];
+
+  const cardsYearlySummary = resEntityDate.map((data, index) => {
+    const { result, entity, isLoading } = data;
+    // result?.totalPaymentInvoice = result?.totalPaymentInvoice?result?.totalPaymentInvoice:0;
+    // result?.totalExpense = result?.totalExpense?result?.totalExpense:0;
+    // result?.totalWithdrawals = result?.totalWithdrawals?result?.totalWithdrawals:0;
+
+    console.log(result?.totalPaymentInvoice + " " + result?.totalExpense +" "+ parseInt(result?.totalWithdrawals||0) )
+    console.log((result?.totalPaymentInvoice||0) - (result?.totalExpense||0) - (result?.totalWithdrawals||0))
+    return (
+      <SummaryCardPayment
+        key={index}
+        title={data?.result?.name}
+        tagColorPayment={'green'}
+        tagColorExpense={'red'}
+        tagColorWithdrawals={'gray'}
+        tagColorTotal={'black'}
+        prefixPayment={'Payment'}
+        prefixExpense={'Expense'}
+        prefixWithdrawals={'Withdrawals'}
+
+        isLoading={isLoading}
+        tagContentPayment={result?.totalPaymentInvoice && formatCurrency(result?.totalPaymentInvoice)}
+        tagContentExpense={result?.totalExpense && formatCurrency(result?.totalExpense)}
+        tagContentWithdrawals={result?.totalWithdrawals && formatCurrency(result?.totalWithdrawals)}
+
+        tagContentTotal={((result?.totalPaymentInvoice||0) - (result?.totalExpense||0) - (result?.totalWithdrawals||0)) && formatCurrency((result?.totalPaymentInvoice||0) - (result?.totalExpense||0) - (result?.totalWithdrawals||0))}
+
+
+      />
+    );
+
+
+  });
 
   const cards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
     if (entity === 'offer') return null;
-    if (entity === "paymentMethod") {
-      console.log()
-      return (
-        <SummaryCardPayment
-          key={index}
-          title={data?.result?.name}
-          tagColor1={'green'}
-          tagColor2={'red'}
-          tagColor3={'black'}
-          prefix1={'Payment'}
-          prefix2={'Expense'}
-
-          isLoading={isLoading}
-          tagContent1={result?.totalPaymentInvoice && formatCurrency(result?.totalPaymentInvoice)}
-          tagContent2={result?.totalExpense && formatCurrency(result?.totalExpense)}
-          tagContent3={(result?.totalPaymentInvoice-result?.totalExpense)&& formatCurrency(result?.totalPaymentInvoice-result?.totalExpense )}
-
-
-        />
-      );
-    }
-    console.log(data?.entity + " " + result?.total)
     return (
       <SummaryCard
         key={index}
@@ -162,7 +201,9 @@ export default function DashboardModule() {
               ? 'purple'
               : data?.entity === 'expense'
                 ? 'red'
-                : 'green'
+                : data?.entity === 'withdrawals'
+                  ? 'gray'
+                  : 'green'
         }
         prefix={'This month'}
         isLoading={isLoading}
@@ -173,7 +214,7 @@ export default function DashboardModule() {
 
   const statisticCards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
-    if (entity === 'payment' || entity === 'expense') return null;
+    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals') return null;
     return (
       <PreviewCard
         key={index}
@@ -207,7 +248,10 @@ export default function DashboardModule() {
             ` ${invoiceResult?.total_undue} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
           }
         /> */}
+        {cardsYearlySummary}
+
       </Row>
+
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 18 }}>

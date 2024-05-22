@@ -196,7 +196,7 @@ const summary = async (req, res) => {
       expensesByPM.push(tempPM);
     });
     
-    console.log(expensesByPM);
+    // console.log(expensesByPM);
     const totalExpenseMonthly =  response2[0].totalExpenseMonthly || [];
 
     const totalExpenses = response[0].totalExpense ? response[0].totalExpense[0] : 0;

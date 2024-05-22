@@ -2,14 +2,17 @@ import { Tag, Divider, Row, Col, Spin, Tooltip } from 'antd';
 
 export default function AnalyticSummaryCard({
   title,
-  tagContent1,
-  tagContent2,
-  tagContent3,
-  tagColor1,
-  tagColor2,
-  tagColor3,
-  prefix1,
-  prefix2,
+  tagContentPayment,
+  tagContentExpense,
+  tagContentWithdrawals,
+  tagContentTotal,
+  tagColorPayment,
+  tagColorExpense,
+  tagColorWithdrawals,
+  tagColorTotal,
+  prefixPayment,
+  prefixExpense,
+  prefixWithdrawals,
   isLoading = false,
 }) {
   return (
@@ -34,10 +37,13 @@ export default function AnalyticSummaryCard({
           <Row gutter={[0, 0]} justify="space-between" wrap={false}>
             <Col className="gutter-row" flex="70px" style={{ textAlign: 'left' }}>
               <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
-                {prefix1}
+                {prefixPayment}
               </div>
               <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
-                {prefix2}
+                {prefixExpense}
+              </div>
+              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+                {prefixWithdrawals}
               </div>
               <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
                 Remaining
@@ -64,9 +70,9 @@ export default function AnalyticSummaryCard({
               {isLoading ? (
                 <Spin />
               ) : (
-                <Tooltip title={tagContent3}>
+                <Tooltip title={tagContentTotal}>
                   <Tag
-                    color={tagColor1}
+                    color={tagColorPayment}
                     style={{
                       margin: '0 auto',
                       justifyContent: 'center',
@@ -76,10 +82,10 @@ export default function AnalyticSummaryCard({
                       textOverflow: 'ellipsis',
                     }}
                   >
-                    {tagContent1 ? tagContent1 : '0.00 L.E'}
+                    {tagContentPayment ? tagContentPayment : '0.00 L.E'}
                   </Tag>
                   <Tag
-                    color={tagColor2}
+                    color={tagColorExpense}
                     style={{
                       margin: '0 auto',
                       justifyContent: 'center',
@@ -89,10 +95,10 @@ export default function AnalyticSummaryCard({
                       textOverflow: 'ellipsis',
                     }}
                   >
-                    {tagContent2 ? tagContent2 : '0.00 L.E'}
+                    {tagContentExpense ? tagContentExpense : '0.00 L.E'}
                   </Tag>
                   <Tag
-                    color={tagColor3}
+                    color={tagColorWithdrawals}
                     style={{
                       margin: '0 auto',
                       justifyContent: 'center',
@@ -102,7 +108,21 @@ export default function AnalyticSummaryCard({
                       textOverflow: 'ellipsis',
                     }}
                   >
-                    {tagContent3 ? tagContent3 : '0.00 L.E'}
+                    {tagContentWithdrawals ? tagContentWithdrawals : '0.00 L.E'}
+
+                  </Tag>
+                  <Tag
+                    color={tagColorTotal}
+                    style={{
+                      margin: '0 auto',
+                      justifyContent: 'center',
+                      maxWidth: '110px',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {tagContentTotal ? tagContentTotal : '0.00 L.E'}
                   </Tag>
                 </Tooltip>
               )}
