@@ -24,7 +24,9 @@ const summary = async (req, res) => {
     const currentDate = moment();
     let startDate = currentDate.clone().startOf(defaultType);
     let endDate = currentDate.clone().endOf(defaultType);
-
+    startDate.add(-1,'hours')
+    endDate.add(1,'hours')
+    
     const statuses = ['draft', 'pending', 'overdue', 'paid', 'unpaid', 'partially'];
 
     const response = await Model.aggregate([
