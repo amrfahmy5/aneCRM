@@ -83,7 +83,7 @@ export default function DashboardModule() {
 
   console.log(withdrawalsResult)
   let resEntityDate = [];
-  if (expenseResult?.expensesByPM.length > 0) {
+  if (expenseResult?.expensesByPM?.length > 0) {
     var res = expenseResult?.expensesByPM.map(item => {
       let keys1 = Object.keys(item);
       let max = 0;

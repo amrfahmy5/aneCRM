@@ -124,11 +124,9 @@ const summary = async (req, res) => {
       }
       paymentInvoiceByPM.push(temp);
     });
-    console.log(totalPaymentMonthly)
 
     result[0].paymentInvoiceByPM =paymentInvoiceByPM;
     result[0].totalPaymentMonthly=totalPaymentMonthly;
-    // console.log(paymentInvoiceByPM);
 
     return res.status(200).json({
       success: true,
