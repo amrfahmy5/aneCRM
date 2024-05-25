@@ -348,15 +348,15 @@ html
                 td.qty #{item.quantity}  
                 td.unit #{item.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
                 td.total #{item.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              tr
-                td(colspan='3') SUBTOTAL
-                td.total #{model.subTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              tr
-                td(colspan='3') TAX #{model.taxRate*100} %
-                td.total #{model.taxTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              tr
-                td.grand.total(colspan='3') GRAND TOTAL
-                td.grand.total #{model.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+          tr
+            td(colspan='3') SUBTOTAL
+            td.total #{model.subTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+          tr
+            td(colspan='3') TAX #{model.taxRate*100} %
+            td.total #{model.taxTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+          tr
+            td.grand.total(colspan='3') GRAND TOTAL
+            td.grand.total #{model.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
       .col.col-24.notes
         .space     
         p.strong.multiline #{model.note}
