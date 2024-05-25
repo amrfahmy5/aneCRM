@@ -15,6 +15,8 @@ import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 import ChartTS from './components/ChartTimeSeries';
 import ChartTSInvoice from './components/ChartTimeSeriesInvoice';
+import ChartTSTWO from './components/ChartTSTWO';
+
 
 import ChartPies from './components/ChartPie';
 import ChartBars from './components/ChartBar';
@@ -289,10 +291,10 @@ export default function DashboardModule() {
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartTSInvoice title="Monthly Sales" Date={invoiceResult?.totalInvoiceMonthly} />
+          <ChartTSTWO title1={"sales"} Date={invoiceResult?.totalInvoiceMonthly} title2={"payment"} Date2={paymentResult?.totalPaymentMonthly} />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartTSInvoice title="Monthly Expense" Date={expenseResult?.totalExpenseMonthly} />
+          <ChartTSInvoice title="Expense" Date={expenseResult?.totalExpenseMonthly}  />
         </Col>
       </Row>
 

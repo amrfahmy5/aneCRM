@@ -26,7 +26,7 @@ const summary = async (req, res) => {
     let endDate = currentDate.clone().endOf(defaultType);
     startDate.add(-1,'hours');
     endDate.add(1,'hours');
-    
+
     // get total amount of invoices
     const result = await Model.aggregate([
       {
@@ -94,12 +94,28 @@ const summary = async (req, res) => {
                 total: '$totalPayment',
               },
             },
-          ]
+          ],
+          totalPaymentMonthly: [
+            {
+              $group: {
+                _id: {
+                  $dateToString: {
+                    date: '$date' ,
+                    format: "%Y-%m"
+                  }
+                },
+                amount: { $sum: '$amount', },
+              },
+            },
+            {
+              $sort: { _id: 1 },
+            }
+          ],
         },
       },
     ]);
-
-    const invoicePaymentByPaymentMode =  response2[0].invoicePaymentByPaymentMode || [];
+    const invoicePaymentByPaymentMode =  response2[0]?.invoicePaymentByPaymentMode || [];
+    const totalPaymentMonthly = response2[0]?.totalPaymentMonthly || [];
     let paymentInvoiceByPM = []
     invoicePaymentByPaymentMode.forEach(i => {
       let temp = {
@@ -108,7 +124,10 @@ const summary = async (req, res) => {
       }
       paymentInvoiceByPM.push(temp);
     });
+    console.log(totalPaymentMonthly)
+
     result[0].paymentInvoiceByPM =paymentInvoiceByPM;
+    result[0].totalPaymentMonthly=totalPaymentMonthly;
     // console.log(paymentInvoiceByPM);
 
     return res.status(200).json({
