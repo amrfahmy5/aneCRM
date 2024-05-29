@@ -32,6 +32,7 @@ const SIDEBAR_MENU = [
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
   { key: '/expenseCategory', icon: <GatewayOutlined/>, title: 'Expense Category' },
   { key: '/Withdrawals', icon: <DollarOutlined/>, title: 'Withdrawals' },
+  { key: '/transferMoney', icon: <DollarOutlined />, title: 'Transfer Money' },
 
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
   { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },

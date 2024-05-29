@@ -17,10 +17,8 @@ import ChartTS from './components/ChartTimeSeries';
 import ChartTSInvoice from './components/ChartTimeSeriesInvoice';
 import ChartTSTWO from './components/ChartTSTWO';
 
-
 import ChartPies from './components/ChartPie';
 import ChartBars from './components/ChartBar';
-
 
 const dataTableColumns = [
   {
@@ -50,6 +48,21 @@ const dataTableColumns = [
 ];
 
 
+function mergeMultipleArrays(arrays, key) {
+  const map = new Map();
+  arrays.forEach((arr) => {
+    if (!arr) return;
+    arr.forEach((item) => {
+      if (map.has(item[key])) {
+        map.set(item[key], { ...map.get(item[key]), ...item });
+      } else {
+        map.set(item[key], { ...item });
+      }
+    });
+  });
+
+  return Array.from(map.values());
+}
 function formatCurrency(value) {
   return `${value} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
@@ -61,7 +74,9 @@ export default function DashboardModule() {
   const { result: quoteResult, isLoading: quoteLoading } = useFetch(() =>
     request.summary({ entity: 'quote' })
   );
-
+  const { result: transferMoneuResult, isLoading: transferMoneuLoading } = useFetch(() =>
+    request.summary({ entity: 'transferMoney' })
+  );
   // const { result: offerResult, isLoading: offerLoading } = useFetch(() =>
   //   request.summary({ entity: 'offer' })
   // );
@@ -69,11 +84,9 @@ export default function DashboardModule() {
   const { result: paymentResult, isLoading: paymentLoading } = useFetch(() =>
     request.summary({ entity: 'payment/invoice' })
   );
-
   const { result: clientResult, isLoading: clientLoading } = useFetch(() =>
     request.summary({ entity: 'client' })
   );
-
   const { result: withdrawalsResult, isLoading: withdrawalsLoading } = useFetch(() =>
     request.summary({ entity: 'withdrawals' })
   );
@@ -81,51 +94,57 @@ export default function DashboardModule() {
     request.summary({ entity: 'expense' })
   );
 
-  console.log(withdrawalsResult)
-  let resEntityDate = [];
-  if (expenseResult?.expensesByPM?.length > 0) {
-    var res = expenseResult?.expensesByPM.map(item => {
-      let keys1 = Object.keys(item);
-      let max = 0;
-      const temp = paymentResult?.paymentInvoiceByPM.reduce((prev, item2) => {
-        let maxTemp = keys1.filter(key => item['name'] === item2['name']).length;
 
-        if (maxTemp > max) {
-          max = maxTemp;
-          prev = item2;
+  const resEntityDate = mergeMultipleArrays(
+    [
+      withdrawalsResult?.withdrawalssByPM,
+      paymentResult?.paymentInvoiceByPM,
+      expenseResult?.expensesByPM,
+      transferMoneuResult?.transferFromByPM,
+      transferMoneuResult?.transferToByPm,
+    ],
+    'name'
+  );
+  const cardsTotalSummary = resEntityDate.map((data, index) => {
+    return (
+      <SummaryCardPayment
+        key={index}
+        title={data?.name}
+        tagColorPayment={'green'}
+        tagColorExpense={'red'}
+        tagColorWithdrawals={'gray'}
+        tagColorMoneyTranfer={'pink'}
+        tagColorMoneyReceived={'yellow'}
+        tagColorTotal={'black'}
+        prefixPayment={'Payment'}
+        prefixExpense={'Expense'}
+        prefixWithdrawals={'Withdrawals'}
+        prefixMoneyTranfer={'Transfer'}
+        prefixMoneyReceived={'Received'}
+        tagContentPayment={data?.totalPaymentInvoice && formatCurrency(data?.totalPaymentInvoice)}
+        tagContentExpense={data?.totalExpense && formatCurrency(data?.totalExpense)}
+        tagContentWithdrawals={data?.totalWithdrawals && formatCurrency(data?.totalWithdrawals)}
+        tagContentMoneyTranfer={data?.totalMoneySend && formatCurrency(data?.totalMoneySend)}
+        tagContentMoneyReceived={
+          data?.totalMoneyReceived && formatCurrency(data?.totalMoneyReceived)
         }
-        return prev;
-      }, {})
-
-      if (temp) {
-        return { ...item, ...temp }
-      }
-    });
-
-    var res2 = res.map(item => {
-      let keys1 = Object.keys(item);
-      let max = 0;
-      const temp = withdrawalsResult?.withdrawalssByPM.reduce((prev, item2) => {
-        let maxTemp = keys1.filter(key => item['name'] === item2['name']).length;
-
-        if (maxTemp > max) {
-          max = maxTemp;
-          prev = item2;
+        tagContentTotal={
+          (data?.totalPaymentInvoice || 0) -
+            (data?.totalExpense || 0) -
+            (data?.totalWithdrawals || 0) -
+            (data?.totalMoneySend || 0) +
+            (data?.totalMoneyReceived || 0) &&
+          formatCurrency(
+            (data?.totalPaymentInvoice || 0) -
+              (data?.totalExpense || 0) -
+              (data?.totalWithdrawals || 0) -
+              (data?.totalMoneySend || 0) +
+              (data?.totalMoneyReceived || 0)
+          )
         }
-        return prev;
-      }, {})
-
-      if (temp) {
-        return { ...item, ...temp }
-      }
-    });
-
-    res2.forEach(i => {
-      resEntityDate.push({ entity: `paymentMethod`, result: i })
-    });
-  }
-
-
+      />
+    );
+  });
 
   const entityData = [
     {
@@ -153,41 +172,12 @@ export default function DashboardModule() {
       isLoading: withdrawalsLoading,
       entity: 'withdrawals',
     },
+    {
+      result: transferMoneuResult,
+      isLoading: transferMoneuLoading,
+      entity: 'Transfering',
+    },
   ];
-
-  const cardsYearlySummary = resEntityDate.map((data, index) => {
-    const { result, entity, isLoading } = data;
-    // result?.totalPaymentInvoice = result?.totalPaymentInvoice?result?.totalPaymentInvoice:0;
-    // result?.totalExpense = result?.totalExpense?result?.totalExpense:0;
-    // result?.totalWithdrawals = result?.totalWithdrawals?result?.totalWithdrawals:0;
-
-    console.log(result?.totalPaymentInvoice + " " + result?.totalExpense +" "+ parseInt(result?.totalWithdrawals||0) )
-    console.log((result?.totalPaymentInvoice||0) - (result?.totalExpense||0) - (result?.totalWithdrawals||0))
-    return (
-      <SummaryCardPayment
-        key={index}
-        title={data?.result?.name}
-        tagColorPayment={'green'}
-        tagColorExpense={'red'}
-        tagColorWithdrawals={'gray'}
-        tagColorTotal={'black'}
-        prefixPayment={'Payment'}
-        prefixExpense={'Expense'}
-        prefixWithdrawals={'Withdrawals'}
-
-        isLoading={isLoading}
-        tagContentPayment={result?.totalPaymentInvoice && formatCurrency(result?.totalPaymentInvoice)}
-        tagContentExpense={result?.totalExpense && formatCurrency(result?.totalExpense)}
-        tagContentWithdrawals={result?.totalWithdrawals && formatCurrency(result?.totalWithdrawals)}
-
-        tagContentTotal={((result?.totalPaymentInvoice||0) - (result?.totalExpense||0) - (result?.totalWithdrawals||0)) && formatCurrency((result?.totalPaymentInvoice||0) - (result?.totalExpense||0) - (result?.totalWithdrawals||0))}
-
-
-      />
-    );
-
-
-  });
 
   const cards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
@@ -200,12 +190,14 @@ export default function DashboardModule() {
           data?.entity === 'invoice'
             ? 'cyan'
             : data?.entity === 'quote'
-              ? 'purple'
-              : data?.entity === 'expense'
-                ? 'red'
-                : data?.entity === 'withdrawals'
-                  ? 'gray'
-                  : 'green'
+            ? 'purple'
+            : data?.entity === 'expense'
+            ? 'red'
+            : data?.entity === 'withdrawals'
+            ? 'gray'
+            : data?.entity === 'Transfering'
+            ? 'yellow'
+            : 'green'
         }
         prefix={'This month'}
         isLoading={isLoading}
@@ -216,7 +208,7 @@ export default function DashboardModule() {
 
   const statisticCards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
-    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals') return null;
+    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals' ||entity === 'Transfering') return null;
     return (
       <PreviewCard
         key={index}
@@ -238,21 +230,10 @@ export default function DashboardModule() {
 
   return (
     <DashboardLayout>
-      <Row gutter={[24, 24]}>
-        {cards}
-        {/* <SummaryCard
-          title={'Banalnce'}
-          tagColor={'red'}
-          prefix={'This month'}
-          isLoading={invoiceLoading}
-          tagContent={
-            invoiceResult?.total_undue &&
-            ` ${invoiceResult?.total_undue} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-          }
-        /> */}
-        {cardsYearlySummary}
+      <Row gutter={[24, 24]}>{cards}</Row>
 
-      </Row>
+      <div className="space30"></div>
+      <Row gutter={[24, 24]}>{cardsTotalSummary}</Row>
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
@@ -272,32 +253,33 @@ export default function DashboardModule() {
         </Col>
       </Row>
 
-
-
-
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
           <ChartTS expenses={expenseResult} />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
-          <ChartPies expenses={expenseResult} title={"Expense Category"} />
+          <ChartPies expenses={expenseResult} title={'Expense Category'} />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
-          <ChartBars expenses={expenseResult} title={"Expenses By Wallet"} />
+          <ChartBars expenses={expenseResult} title={'Expenses By Wallet'} />
         </Col>
       </Row>
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartTSTWO title1={"sales"} Date={invoiceResult?.totalInvoiceMonthly} title2={"payment"} Date2={paymentResult?.totalPaymentMonthly} />
+          <ChartTSTWO
+            title1={'sales'}
+            Date={invoiceResult?.totalInvoiceMonthly}
+            title2={'payment'}
+            Date2={paymentResult?.totalPaymentMonthly}
+          />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartTSInvoice title="Expense" Date={expenseResult?.totalExpenseMonthly}  />
+          <ChartTSInvoice title="Expense" Date={expenseResult?.totalExpenseMonthly} />
         </Col>
       </Row>
-
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
@@ -320,8 +302,6 @@ export default function DashboardModule() {
           </div>
         </Col>
       </Row>
-
-
     </DashboardLayout>
   );
 }

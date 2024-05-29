@@ -201,6 +201,22 @@ export const routesConfig = [
   },
 
 
+  {
+    path: '/transferMoney',
+    component: 'TransferMoney/index',
+  },
+  {
+    path: '/transferMoney/create',
+    component: 'TransferMoney/transferMoneyCreate',
+  },
+  {
+    path: '/transferMoney/read/:id',
+    component: 'TransferMoney/transferMoneyRead',
+  },
+  {
+    path: '/transferMoney/update/:id',
+    component: 'TransferMoney/transferMoneyUpdate',
+  },
 
 
   {

@@ -20,6 +20,9 @@ const expenseCategoryController = require('@/controllers/appControllers/expenseC
 const paymentInvoiceController = require('@/controllers/appControllers/paymentInvoiceController');
 
 const offerController = require('@/controllers/appControllers/offerController');
+const transferMoneyrController = require('@/controllers/appControllers/trasnsferMoneyController/trasnsferMoneyController');
+
+
 
 // //_________________________________ API for employees_____________________
 router.route('/employee/create').post(catchErrors(employeeController.create));
@@ -169,5 +172,17 @@ router.route('/offer/list').get(catchErrors(offerController.list));
 router.route('/offer/filter').get(catchErrors(offerController.filter));
 router.route('/offer/pdf/:id').get(catchErrors(offerController.generatePDF));
 router.route('/offer/summary').get(catchErrors(offerController.summary));
+
+// //_________________________________________________________________API for moneyTransfer_____________________
+
+router.route('/transferMoney/create').post(catchErrors(transferMoneyrController.create));
+router.route('/transferMoney/read/:id').get(catchErrors(transferMoneyrController.read));
+router.route('/transferMoney/update/:id').patch(catchErrors(transferMoneyrController.update));
+router.route('/transferMoney/delete/:id').delete(catchErrors(transferMoneyrController.delete));
+router.route('/transferMoney/search').get(catchErrors(transferMoneyrController.search));
+router.route('/transferMoney/list').get(catchErrors(transferMoneyrController.list));
+router.route('/transferMoney/filter').get(catchErrors(transferMoneyrController.filter));
+router.route('/transferMoney/summary').get(catchErrors(transferMoneyrController.summary));
+
 
 module.exports = router;

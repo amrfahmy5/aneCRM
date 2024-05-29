@@ -5,14 +5,20 @@ export default function AnalyticSummaryCard({
   tagContentPayment,
   tagContentExpense,
   tagContentWithdrawals,
+  tagContentMoneyTranfer,
+  tagContentMoneyReceived,
   tagContentTotal,
   tagColorPayment,
   tagColorExpense,
   tagColorWithdrawals,
+  tagColorMoneyTranfer,
+  tagColorMoneyReceived,
   tagColorTotal,
   prefixPayment,
   prefixExpense,
   prefixWithdrawals,
+  prefixMoneyTranfer,
+  prefixMoneyReceived,
   isLoading = false,
 }) {
   return (
@@ -44,6 +50,12 @@ export default function AnalyticSummaryCard({
               </div>
               <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
                 {prefixWithdrawals}
+              </div>
+              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+                {prefixMoneyTranfer}
+              </div>
+              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+                {prefixMoneyReceived}
               </div>
               <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
                 Remaining
@@ -109,6 +121,34 @@ export default function AnalyticSummaryCard({
                     }}
                   >
                     {tagContentWithdrawals ? tagContentWithdrawals : '0.00 L.E'}
+
+                  </Tag>
+                  <Tag
+                    color={tagColorMoneyTranfer}
+                    style={{
+                      margin: '0 auto',
+                      justifyContent: 'center',
+                      maxWidth: '110px',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {tagContentMoneyTranfer ? tagContentMoneyTranfer : '0.00 L.E'}
+
+                  </Tag>
+                  <Tag
+                    color={tagColorMoneyReceived}
+                    style={{
+                      margin: '0 auto',
+                      justifyContent: 'center',
+                      maxWidth: '110px',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {tagContentMoneyReceived ? tagContentMoneyReceived : '0.00 L.E'}
 
                   </Tag>
                   <Tag
