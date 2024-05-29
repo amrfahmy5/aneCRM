@@ -125,9 +125,11 @@ const summary = async (req, res) => {
       paymentInvoiceByPM.push(temp);
     });
 
-    result[0].paymentInvoiceByPM =paymentInvoiceByPM;
-    result[0].totalPaymentMonthly=totalPaymentMonthly;
-
+    if(result.length>0){
+      result[0].paymentInvoiceByPM =paymentInvoiceByPM;
+      result[0].totalPaymentMonthly=totalPaymentMonthly;
+    }
+    
     return res.status(200).json({
       success: true,
       result: result.length > 0 ? result[0] : { count: 0, total: 0 },

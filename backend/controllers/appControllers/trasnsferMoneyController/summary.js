@@ -132,10 +132,6 @@ const summary = async (req, res) => {
       },
     ]);
     const totalTransfer = response[0].totalTransfer ? response[0].totalTransfer[0] : 0;
-
-    console.log("hiiiiiiiiiiiiiii");
-    console.log(totalTransfer);
-
     const transferFromByPaymentMode =  response2[0].transferFromByPaymentMode || [];
     const transferToByPaymentMode =  response2[0].transferToByPaymentMode || [];
     let transferFromByPM = []
@@ -144,7 +140,6 @@ const summary = async (req, res) => {
         name : i.mode.name[0].name,
         totalMoneySend : i.total,
       }
-      transferFromByPM.push(tempPM);
     });
     let transferToByPm = []
     transferToByPaymentMode.forEach(i => {
@@ -154,9 +149,6 @@ const summary = async (req, res) => {
       }
       transferToByPm.push(tempPM);
     });
-    console.log(transferFromByPM);
-    console.log(transferToByPm);
-
 
     const finalResult = {
       total: totalTransfer?.total.toFixed(2),

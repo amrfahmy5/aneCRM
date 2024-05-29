@@ -18,7 +18,9 @@ import {
   UserAddOutlined,
   FileOutlined,
   DollarOutlined,
-  GatewayOutlined
+  GatewayOutlined,
+  TransactionOutlined,
+  MoneyCollectOutlined
 } from '@ant-design/icons';
 
 const SIDEBAR_MENU = [
@@ -31,8 +33,8 @@ const SIDEBAR_MENU = [
   { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
   { key: '/expenseCategory', icon: <GatewayOutlined/>, title: 'Expense Category' },
-  { key: '/Withdrawals', icon: <DollarOutlined/>, title: 'Withdrawals' },
-  { key: '/transferMoney', icon: <DollarOutlined />, title: 'Transfer Money' },
+  { key: '/Withdrawals', icon: <MoneyCollectOutlined/>, title: 'Withdrawals' },
+  { key: '/transferMoney', icon: <TransactionOutlined />, title: 'Transfer Money' },
 
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
   { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },

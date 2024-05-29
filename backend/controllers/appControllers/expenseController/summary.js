@@ -184,9 +184,6 @@ const summary = async (req, res) => {
         },
       },
     ]);
-    // console.log(response2[0].expenseByPaymentMode[0])
-    // console.log(response2[0].expenseByPaymentMode[0].total)
-    // console.log(response2[0].expenseByPaymentMode[0].mode.name[0].name)
 
     const totalExpenseByPM =  response2[0].expenseByPaymentMode || [];
     let expensesByPM = []
@@ -198,7 +195,6 @@ const summary = async (req, res) => {
       expensesByPM.push(tempPM);
     });
     
-    // console.log(expensesByPM);
     const totalExpenseMonthly =  response2[0].totalExpenseMonthly || [];
 
     const totalExpenses = response[0].totalExpense ? response[0].totalExpense[0] : 0;

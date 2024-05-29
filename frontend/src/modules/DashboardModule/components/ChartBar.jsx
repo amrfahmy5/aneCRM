@@ -31,7 +31,6 @@ ChartJs.register(
 //     return moment(date).format('DD/MM/YYYY')
 // }
 function ChartBars({ expenses, title }) {
-    console.log(expenses?.expensesCreatedbyCount);
     if (!expenses?.expensesCreatedbyCount) return '';
 
     var oilData = {

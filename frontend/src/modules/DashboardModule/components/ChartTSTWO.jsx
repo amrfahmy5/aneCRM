@@ -55,7 +55,6 @@ function ChartTSTWO({ title1,title2,Date , Date2=[] }) {
 
   let total =res.map(item=>item.total?item.total:0)
   let amount =res.map(item=>item.amount?item.amount:0)
-  console.log(amount)
 
 
   let data = {

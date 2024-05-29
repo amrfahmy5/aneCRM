@@ -28,7 +28,6 @@ ChartJs.register(
 //     return moment(date).format('DD/MM/YYYY')
 // }
 function ChartPies({ expenses }) {
-  console.log(expenses?.performance);
   if (!expenses?.performance) return '';
 
   var oilData = {
