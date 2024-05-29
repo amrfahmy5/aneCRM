@@ -14,3 +14,22 @@
 @import './partials/dataTable.less';
 @import './partials/erp.less';
 @import './partials/form.less';
+
+@media print {
+    body {
+      //visibility: hidden;
+      //display: none;
+    }
+    .sidebar-wraper , .ant-page-header-heading , .headerIcon{
+      display: none;
+    }
+    main {
+      //visibility: visible;
+      //display: block;
+      position: absolute;
+      right: 0;
+      left: 0;
+      top: 0;
+      margin: 0 !important;
+    }
+}

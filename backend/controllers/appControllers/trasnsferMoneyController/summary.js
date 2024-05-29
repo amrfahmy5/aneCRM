@@ -140,6 +140,8 @@ const summary = async (req, res) => {
         name : i.mode.name[0].name,
         totalMoneySend : i.total,
       }
+      transferFromByPM.push(tempPM)
+
     });
     let transferToByPm = []
     transferToByPaymentMode.forEach(i => {
