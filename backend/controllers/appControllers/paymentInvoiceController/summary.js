@@ -129,10 +129,10 @@ const summary = async (req, res) => {
       result[0].paymentInvoiceByPM =paymentInvoiceByPM;
       result[0].totalPaymentMonthly=totalPaymentMonthly;
     }
-    
+
     return res.status(200).json({
       success: true,
-      result: result.length > 0 ? result[0] : { count: 0, total: 0 },
+      result: result.length > 0 ? result[0] : { count: 0, total: 0 ,totalPaymentMonthly:totalPaymentMonthly,paymentInvoiceByPM :paymentInvoiceByPM},
       message: `Successfully fetched the summary of payment invoices for the last ${defaultType}`,
     });
   } catch (error) {
