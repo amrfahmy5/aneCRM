@@ -31,20 +31,43 @@ ChartJs.register(
 //     return moment(date).format('DD/MM/YYYY')
 // }
 function ChartBars({ expenses, title }) {
-    if (!expenses?.expensesCreatedbyCount) return '';
-
+    // if (!expenses?.expensesCreatedbyCount) return '';
+    if (!expenses?.performance) return '';
     var oilData = {
-        labels: expenses?.expensesCreatedbyCount?.map((expense) => expense?.status),
+        // labels: expenses?.expensesCreatedbyCount?.map((expense) => expense?.status),
+        labels: expenses?.performance?.map((expense) => expense?.categoryName),
+
         datasets: [
             {
                 label: "",
-                data: expenses?.expensesCreatedbyCount?.map((expense) => expense?.total),
+                data: expenses?.performance?.map((expense) => expense?.categoryTotal),
                 backgroundColor: [
-                    '#e9724d',
-                    '#d6d727',
-                    '#92cad1',
-                    '#79ccb3',
-                    '#868686'
+                    '#595959',
+                    '#1890ff',
+                    '#ffa940',
+                    '#ff4d4f',
+                    '#13c2c2',
+                    '#95de64',
+                    '#722ed1',
+                    '#614700',
+                    '#2085ec',
+                    '#323232',
+                    '#cea9bc',
+                    '#8464a0',
+                    '#0a417a',
+                    '#72b4eb',
+                    '#CD5C5C',
+                    '#E9967A',
+                    '#DFFF00',
+                    '#DE3163',
+                    '#40E0D0',
+                    '#9FE2BF',
+                    '#CCCCFF',
+                    '#FFBF00',
+                    '#808000',
+                    '#008000',
+                    '#FF00FF',
+                    '#000080'
                 ],
             },
         ],

@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }) {
         className="dashboardSpacing"
         style={{
           width: '100%',
-          maxWidth: '1100px',
+          // maxWidth: '1100px',
         }}
       >
         {children}

@@ -255,14 +255,16 @@ export default function DashboardModule() {
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
-          <ChartTS expenses={expenseResult} />
+        
+        
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+          <ChartBars expenses={expenseResult} title={'Expenses By Wallet'} />
         </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+          <ChartTS expenses={expenseResult} />
+        </Col>  
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
           <ChartPies expenses={expenseResult} title={'Expense Category'} />
-        </Col>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
-          <ChartBars expenses={expenseResult} title={'Expenses By Wallet'} />
         </Col>
       </Row>
 

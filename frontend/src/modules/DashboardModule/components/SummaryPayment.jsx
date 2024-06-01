@@ -96,6 +96,7 @@ export default function AnalyticSummaryCard({
                   >
                     {tagContentPayment ? tagContentPayment : '0.00 L.E'}
                   </Tag>
+                  <br></br>
                   <Tag
                     color={tagColorExpense}
                     style={{
@@ -109,6 +110,8 @@ export default function AnalyticSummaryCard({
                   >
                     {tagContentExpense ? tagContentExpense : '0.00 L.E'}
                   </Tag>
+                  <br></br>
+
                   <Tag
                     color={tagColorWithdrawals}
                     style={{
@@ -123,6 +126,8 @@ export default function AnalyticSummaryCard({
                     {tagContentWithdrawals ? tagContentWithdrawals : '0.00 L.E'}
 
                   </Tag>
+                  <br></br>
+                  
                   <Tag
                     color={tagColorMoneyTranfer}
                     style={{
@@ -137,6 +142,7 @@ export default function AnalyticSummaryCard({
                     {tagContentMoneyTranfer ? tagContentMoneyTranfer : '0.00 L.E'}
 
                   </Tag>
+                  <br></br>
                   <Tag
                     color={tagColorMoneyReceived}
                     style={{
@@ -151,6 +157,7 @@ export default function AnalyticSummaryCard({
                     {tagContentMoneyReceived ? tagContentMoneyReceived : '0.00 L.E'}
 
                   </Tag>
+                  <br></br>
                   <Tag
                     color={tagColorTotal}
                     style={{
