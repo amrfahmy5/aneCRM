@@ -1,8 +1,10 @@
+//- invoice without parameter ------------------------------------------------------------------------------
 doctype html
 html
   head
     link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.png")
     meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(href='https://fonts.googleapis.com/css?family=Poetsen One' rel='stylesheet')
     style.
       .sheet {
         margin: 0;
@@ -26,13 +28,13 @@ html
 
       .clearfix {
         display: block; }
-      //- .invoice-container {
-      //-   position: relative;
-      //-   margin: 0 auto;
-      //-   color: #001028;
-      //-   background: #fff;
-      //-   font-size: 10px;
-      //- }
+      .invoice-container {
+        position: relative;
+        margin: 0 auto;
+        color: #001028;
+        background: #fff;
+        font-size: 10px;
+      }
       .left{
         float:left;
       }
@@ -51,34 +53,38 @@ html
         text-align: left;
       }
       .logo {
-        width: 150px;
+        width: 250px;
       }
       .company-info{
         text-align: right;
-        font-size:8px;
+        font-weight:bold; 
+        margin-top:30px;
       }
+      
       h1.invoice{
         font-size:32px;
-        color:#52008c;
+        color:#2d67b2;
         margin-top:0;
       }
-      p.strong{
-        font-weight:700;
+      .strong{
+        font-weight:800;
+        color:#2d67b2;
+      }
+      span.normal{
+        font-weight:400;
       }
       .billTo p {
         text-align: right !important;
         float:right;
         display:block;
-        font-size:9px;
+        font-size:12px;
         width:100%;
         margin-top:0;
         margin-bottom:10px;
         
       }
 
-      .tableHeader{
-        color:#52008c;
-      }
+      
       .clearfix {
         display: block; }
       .col {
@@ -180,6 +186,9 @@ html
         display: inline-block;
         font-size: 0.8em;
       }
+      .invoiceDate{
+      font-size:12px; 
+      }
       .company-invoice {
         float: right;
         text-align: right;
@@ -204,14 +213,17 @@ html
       .table-invoice th {
         padding: 8px 10px;
         border-bottom: 1px solid #c2e0f2;
-        color:#52008c;
+        color:#2d67b2;
         white-space: nowrap;
         font-weight: 700;
-        font-size: 12px;
+        font-size: 15px;
         text-align: right;
       }
       tbody{
         border-bottom: 1px solid #c2e0f2;
+      }
+      .tableBody{
+       font-size:10px;
       }
       .table-invoice .service, .table-invoice .desc {
         text-align: left;
@@ -219,7 +231,7 @@ html
       .table-invoice td {
         padding: 10px ;
         text-align: right;
-        font-size: 9px;
+        font-size: 12px;
       }
       .table-invoice td.service, .table-invoice td.desc {
         vertical-align: top;
@@ -246,7 +258,7 @@ html
         
       }
       .footer-invoice {
-        margin-top:30px
+        margin-top:30px;
         color: #5d6975;
         width: 100%;
         position: absolute;
@@ -255,40 +267,67 @@ html
         padding: 20px 0;
         text-align: center;
       }
- 
+      .companyName{
+        font-size:20px;
+        line-height: 0px;
+        color:#cd2027;
+
+      }
+      .companyDescription{
+        font-size:10px;
+        line-height: 10px;
+        color:#2d67b2;
+      }
+      .companyPhone{
+        font-size:13px;
+      }
+      .tableHeader{
+        color:#52008c;
+        font-size:15px;
+      }
+      .tableBody{
+        font-size:10px;
+      }
+      .notes{
+       text-align:right;
+       font-size:15px;
+      }
+      .multiline {
+        white-space: pre-wrap;
+      }
   body
-    
       header.clearfix
         .top-area
-          img.logo.left(src=" https://www.idurarweb.com/Theme/idurarweb-theme/assets/img/creation-de-site-web-algerie.png")
+          img.logo.left(src="/logo/banner-1.png")
           .right.company-info
-              p IDURAR WEB Agency
-              p Centre d’affaire El-Mountazeh Oran - Algerie
-              p RC: 16A5414225 /NIF: 199035050030146 /AI: 31050981441
+              p.companyName AlNabilEquipment
+              p.companyDescription Import Kitchen & hotel & coffee equipment
+              p.companyPhone.strong tel : 
+               span.normal +201121833830
               
         .col.col-24
           .space  
-        .left.col-12
+        .left.col-14
             h1.invoice
-              | QUOTE 
+              | Supplier Order 
             div 
+             .invoiceDate
               .col.col-8
-                p.strong Date :
-                p #{moment(model.date).format("DD/MM/YYYY")}
-              .col.col-8
-                p.strong Expired Date :
-                p #{moment(model.expiredDate).format("DD/MM/YYYY")}
+                span.strong Date : 
+                span.normal #{moment(model.date).format("DD/MM/YYYY")}
               .col.col-8 
-                p.strong Quote Number :
-                p # #{model.number}/#{model.year || ""} 
+                span.strong Order Number : 
+                span.normal # #{model.number}
               
         .right.col-10
             .billTo
-                p Bill To :
-                p #{model.client.company}
-                p address : #{model.client.address}
-                p phone : #{model.client.phone}
-                p Tel : #{model.client.email}
+                p.strong Bill To : 
+                 span.normal #{model.supplier.company}
+                p.strong address :
+                 span.normal #{model.supplier.address}
+                p.strong phone : 
+                 span.normal #{model.supplier.email}
+                
         .col.col-24
           .space  
       main
@@ -296,31 +335,27 @@ html
           thead
             tr.tableHeader
               th.service ITEM
+              
               th QTY
               th PRICE
               th TOTAL
-          tbody
+          tbody.tableBody
             each item in model.items
               tr
                 td.service #{item.itemName}
                   span #{item.description}
                 td.qty #{item.quantity}  
-                td.unit $ #{item.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-                td.total $ #{item.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+                td.unit #{item.price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+                td.total #{item.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
             tr
               td(colspan='3') SUBTOTAL
-              td.total $ #{model.subTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+              td.total #{model.subTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
             tr
               td(colspan='3') TAX #{model.taxRate*100} %
-              td.total $ #{model.taxTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+              td.total #{model.taxTotal.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
             tr
               td.grand.total(colspan='3') GRAND TOTAL
-              td.grand.total $#{model.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-        
-      .col.col-24
-          .space     
-      footer.footer-invoice
-        | Invoice was created on a computer and is valid without the signature and seal.
-          
-
-   
+              td.grand.total #{model.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+      .col.col-24.notes
+        .space     
+        p.strong.multiline #{model.note}

@@ -6,6 +6,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const ModelQuote = mongoose.model('Quote');
 const ModelInvoice = mongoose.model('Invoice');
+const ModelSupplierOrder = mongoose.model('SupplierOrder');
+
 
 const pug = require('pug');
 const moment = require('moment');
@@ -14,8 +16,9 @@ let pdf = require('html-pdf');
 router.route('/print/:modelName/:id').get(async (req, res) =>{//Invoice,Quote
   try {
   let { modelName,id } = req.params;
-  modelName=(modelName=="quote"||modelName=="Quote")?"Quote":"Invoice";
-  let Model =  (modelName=="Quote")?ModelQuote:ModelInvoice;
+  modelName = modelName.charAt(0).toUpperCase() + modelName.slice(1)
+  // modelName=(modelName=="quote"||modelName=="Quote")?"Quote":"Invoice";
+  let Model =  (modelName=="Quote")?ModelQuote:(modelName=="SupplierOrder")?ModelSupplierOrder:ModelInvoice;
   const result = await Model.findOne({ _id: id });
   const html =await pug.renderFile('views/pdf/' + modelName + '.pug', {
     model: result,

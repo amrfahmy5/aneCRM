@@ -240,6 +240,26 @@ export const routesConfig = [
   {
     path: '/supplier',
     component: 'Supplier',
-  }
+  },
+  {
+    path: '/supplierOrder',
+    component: 'SupplierOrder/index',
+  },
+  {
+    path: '/supplierOrder/create',
+    component: 'SupplierOrder/SupplierOrderCreate',
+  },
+  {
+    path: '/supplierOrder/read/:id',
+    component: 'SupplierOrder/SupplierOrderRead',
+  },
+  {
+    path: '/supplierOrder/update/:id',
+    component: 'SupplierOrder/SupplierOrderUpdate',
+  },
+  {
+    path: '/supplierOrder/pay/:id',
+    component: 'SupplierOrder/supplierOrderRecordPayment',
+  },
 
 ];

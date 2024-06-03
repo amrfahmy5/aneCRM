@@ -14,11 +14,15 @@ const supplierOrderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  recurring: {
+    type: String,
+    default: '0',
+  },
   date: {
     type: Date,
     required: true,
   },
-  dateExpired: {
+  expiredDate: {
     type: Date,
     required: true,
   },
@@ -26,10 +30,11 @@ const supplierOrderSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Supplier',
     required: true,
+    autopopulate: true
   },
   items: [
     {
-      name: {
+      itemName: {
         type: String,
         trim: true,
         required: true,
@@ -73,20 +78,26 @@ const supplierOrderSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  expense: [
+  paymentInvoice: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Expense',
+      ref: 'paymentInvoice',
     },
   ],
   paymentStatus: {
     type: String,
-    trim: true,
     default: 'unpaid',
+  },
+  note: {
+    type: String,
   },
   status: {
     type: String,
     default: 'draft',
+  },
+  pdfPath: {
+    type: String,
+    default: '',
   },
   updated: {
     type: Date,
@@ -97,5 +108,5 @@ const supplierOrderSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
+supplierOrderSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model('SupplierOrder', supplierOrderSchema);
