@@ -235,4 +235,11 @@ export const routesConfig = [
     path: '/expenseCategory/update/:id',
     component: 'ExpenseCategory/ExpenseCategoryUpdate',
   },
+
+
+  {
+    path: '/supplier',
+    component: 'Supplier',
+  }
+
 ];

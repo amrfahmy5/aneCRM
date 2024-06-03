@@ -52,7 +52,6 @@ const supplierSchema = new mongoose.Schema({
   tel: {
     type: String,
     trim: true,
-    required: true,
   },
   fax: {
     type: String,
@@ -67,6 +66,10 @@ const supplierSchema = new mongoose.Schema({
     trim: true,
   },
   website: {
+    type: String,
+    trim: true,
+  },
+  description: {
     type: String,
     trim: true,
   },
