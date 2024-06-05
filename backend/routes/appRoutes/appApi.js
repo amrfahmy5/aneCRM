@@ -19,6 +19,8 @@ const withdrawalsController = require('@/controllers/appControllers/withDrawalsC
 const expenseCategoryController = require('@/controllers/appControllers/expenseCategoryController');
 const paymentInvoiceController = require('@/controllers/appControllers/paymentInvoiceController');
 
+const paymentSupplierOrderController = require('@/controllers/appControllers/paymentSupplierOrderController');
+
 const offerController = require('@/controllers/appControllers/offerController');
 const transferMoneyrController = require('@/controllers/appControllers/trasnsferMoneyController/trasnsferMoneyController');
 
@@ -114,6 +116,18 @@ router.route('/supplierOrder/delete/:id').delete(catchErrors(supplierOrderContro
 router.route('/supplierOrder/search').get(catchErrors(supplierOrderController.search));
 router.route('/supplierOrder/list').get(catchErrors(supplierOrderController.list));
 router.route('/supplierOrder/filter').get(catchErrors(supplierOrderController.filter));
+
+// //_____________________________________________ API for supplier payments_________________
+
+router.route('/payment/supplierOrder/create').post(catchErrors(paymentSupplierOrderController.create));
+router.route('/payment/supplierOrder/read/:id').get(catchErrors(paymentSupplierOrderController.read));
+router.route('/payment/supplierOrder/update/:id').patch(catchErrors(paymentSupplierOrderController.update));
+router.route('/payment/supplierOrder/delete/:id').delete(catchErrors(paymentSupplierOrderController.delete));
+router.route('/payment/supplierOrder/search').get(catchErrors(paymentSupplierOrderController.search));
+router.route('/payment/supplierOrder/list').get(catchErrors(paymentSupplierOrderController.list));
+router.route('/payment/supplierOrder/filter').get(catchErrors(paymentSupplierOrderController.filter));
+router.route('/payment/supplierOrder/pdf/:id').get(catchErrors(paymentSupplierOrderController.generatePDF));
+router.route('/payment/supplierOrder/summary').get(catchErrors(paymentSupplierOrderController.summary));
 
 // //_________________________________________________________________API for Withdrawals_____________________
 

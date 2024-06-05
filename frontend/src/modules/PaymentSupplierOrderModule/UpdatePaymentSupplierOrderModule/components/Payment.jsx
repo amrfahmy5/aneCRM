@@ -1,44 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Divider } from 'antd';
-
 import { Button, PageHeader, Row, Col, Descriptions, Tag } from 'antd';
 import { FileTextOutlined, CloseCircleOutlined } from '@ant-design/icons';
-
-import { useErpContext } from '@/context/erp';
 import uniqueId from '@/utils/uinqueId';
-
 import { useMoney } from '@/settings';
-
-import RecordPayment from './RecordPayment';
-import { useSelector } from 'react-redux';
-import { selectRecordPaymentItem } from '@/redux/erp/selectors';
 import history from '@/utils/history';
+import UpdatePayment from './UpdatePayment';
 
 export default function Payment({ config, currentItem }) {
   const { entity, ENTITY_NAME } = config;
 
-  const { erpContextAction } = useErpContext();
-
-  const { readPanel, recordPanel } = erpContextAction;
   const money = useMoney();
 
-  const [itemslist, setItemsList] = useState([]);
   const [currentErp, setCurrentErp] = useState(currentItem);
-
+  
   useEffect(() => {
     const controller = new AbortController();
     if (currentItem) {
-      const { items } = currentItem;
-
-      setItemsList(items);
-      setCurrentErp(currentItem);
+      const { supplierOrder, _id, ...others } = currentItem;
+      setCurrentErp({ ...others, ...supplierOrder, _id });
     }
     return () => controller.abort();
   }, [currentItem]);
-
-  useEffect(() => {
-    console.info('itemslist', itemslist);
-  }, [itemslist]);
 
   return (
     <>
@@ -52,11 +35,9 @@ export default function Payment({ config, currentItem }) {
         >
           <PageHeader
             onBack={() => history.push(`/${entity.toLowerCase()}`)}
-            title={`Record Payment for ${ENTITY_NAME} # ${currentErp.number}/${
-              currentErp.year || ''
-            }`}
+            title={`Update  ${ENTITY_NAME} # ${currentErp.number}/${currentErp.year || ''}`}
             ghost={false}
-            tags={<Tag color="volcano">{currentErp.status}</Tag>}
+            tags={<Tag color="volcano">{currentErp.paymentStatus}</Tag>}
             // subTitle="This is cuurent erp page"
             extra={[
               <Button
@@ -94,7 +75,7 @@ export default function Payment({ config, currentItem }) {
           <div className="space50"></div>
           <Descriptions title={`Supplier : ${currentErp.supplier.company}`} column={1}>
             <Descriptions.Item label="E-mail">{currentErp.supplier.email}</Descriptions.Item>
-            <Descriptions.Item label="Phone">{currentErp.supplier.phone}</Descriptions.Item>
+            <Descriptions.Item label="Phone">{currentErp.supplier.tel}</Descriptions.Item>
             <Divider dashed />
             <Descriptions.Item label="Payment Status">{currentErp.paymentStatus}</Descriptions.Item>
             <Descriptions.Item label="SubTotal">
@@ -119,7 +100,7 @@ export default function Payment({ config, currentItem }) {
           md={{ span: 12, order: 1 }}
           lg={{ span: 10, order: 1, push: 2 }}
         >
-          <RecordPayment config={config} />
+          <UpdatePayment config={config} currentSupplierOrder={currentErp} date={currentItem?.date} />
         </Col>
       </Row>
     </>

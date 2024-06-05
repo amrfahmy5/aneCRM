@@ -1,7 +1,7 @@
 import configPage from './config';
 import RecordPaymentSupplierOrderModule from '@/modules/SupplierOrderModule/RecordPaymentSupplierOrderModule';
 
-export default function InvoiceRecord() {
+export default function SupplierOrderRecord() {
   const customConfig = {
     /*your custom config*/
   };

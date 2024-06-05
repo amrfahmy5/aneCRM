@@ -1,43 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Divider, Button, PageHeader, Tag } from 'antd';
-
+import dayjs from 'dayjs';
 import { useSelector, useDispatch } from 'react-redux';
 import { erp } from '@/redux/erp/actions';
-import { selectCurrentItem, selectRecordPaymentItem } from '@/redux/erp/selectors';
+import { selectUpdatedItem } from '@/redux/erp/selectors';
 
 import { useErpContext } from '@/context/erp';
 
 import Loading from '@/components/Loading';
 
-import PaymentSupplierOrderForm from '@/forms/PaymentSupplierOrderForm';
-
 import calculate from '@/utils/calculate';
-
-export default function RecordPayment({ config }) {
+import PaymentInvoiceForm from '../../Forms/PaymentInvoiceForm';
+export default function UpdatePayment({ config, currentSupplierOrder ,date}) {
   let { entity } = config;
-  const { erpContextAction } = useErpContext();
-  const { recordPanel } = erpContextAction;
   const dispatch = useDispatch();
 
-  const { isLoading, isSuccess, current: currentSupplierOrder } = useSelector(selectRecordPaymentItem);
-  console.log("currentSupplierOrder:::::::::::::::")
+  const { isLoading, isSuccess } = useSelector(selectUpdatedItem);
 
-  console.log(currentSupplierOrder)
   const [form] = Form.useForm();
 
   const [maxAmount, setMaxAmount] = useState(0);
+
   useEffect(() => {
     if (currentSupplierOrder) {
-      const { credit, total, discount } = currentSupplierOrder;
+      const { credit, total, discount, amount } = currentSupplierOrder;
+      // console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+      // console.log(credit+"---"+total+"---"+discount+"---"+amount+"---");
 
-      setMaxAmount(calculate.sub(calculate.sub(total, discount), credit));
+      // console.log(calculate.sub(calculate.sub(total, discount), calculate.sub(calculate.sub(credit, amount))));
+
+      setMaxAmount(
+        
+        calculate.sub(calculate.sub(total, discount), calculate.sub(calculate.sub(credit, amount)))
+      );
+      if(date){
+        currentSupplierOrder.date = dayjs(date);
+      }
+      else if (currentSupplierOrder.date) {
+        currentSupplierOrder.date = dayjs(currentSupplierOrder.date);
+      }
+      form.setFieldsValue(currentSupplierOrder);
     }
   }, [currentSupplierOrder]);
+
   useEffect(() => {
     if (isSuccess) {
       form.resetFields();
       dispatch(erp.resetAction({ actionType: 'recordPayment' }));
-      recordPanel.close();
       dispatch(erp.list({ entity }));
     }
   }, [isSuccess]);
@@ -54,8 +63,9 @@ export default function RecordPayment({ config }) {
     }
 
     dispatch(
-      erp.recordPayment({
-        entity: 'payment/supplierOrder',
+      erp.update({
+        entity,
+        id: currentSupplierOrder._id,
         jsonData: fieldsValue,
       })
     );
@@ -65,10 +75,10 @@ export default function RecordPayment({ config }) {
     <>
       <Loading isLoading={isLoading}>
         <Form form={form} layout="vertical" onFinish={onSubmit}>
-          <PaymentSupplierOrderForm maxAmount={maxAmount} />
+          <PaymentInvoiceForm maxAmount={maxAmount} />
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Record Payment
+              Update Payment
             </Button>
           </Form.Item>
         </Form>

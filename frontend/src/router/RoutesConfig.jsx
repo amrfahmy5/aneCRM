@@ -259,7 +259,24 @@ export const routesConfig = [
   },
   {
     path: '/supplierOrder/pay/:id',
-    component: 'SupplierOrder/supplierOrderRecordPayment',
+    component: 'SupplierOrder/SupplierOrderRecordPayment',
+  },
+
+  {
+    path: '/payment/supplierOrder',
+    component: 'PaymentSupplierOrder/index',
+  },
+  {
+    path: '/payment/supplierOrder/create',
+    component: 'PaymentSupplierOrder/PaymentSupplierOrderCreate',
+  },
+  {
+    path: '/payment/supplierOrder/read/:id',
+    component: 'PaymentSupplierOrder/PaymentSupplierOrderRead',
+  },
+  {
+    path: '/payment/supplierOrder/update/:id',
+    component: 'PaymentSupplierOrder/PaymentSupplierOrderUpdate',
   },
 
 ];

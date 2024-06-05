@@ -34,12 +34,15 @@ const SIDEBAR_MENU = [
 
   { key: '/supplier', icon: <CustomerServiceOutlined />, title: 'Supplier' },
   { key: '/supplierOrder', icon: <FileTextOutlined />, title: 'supplier Order' },
+  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Payment Supplier Order' },
 
 
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
   { key: '/expenseCategory', icon: <GatewayOutlined/>, title: 'Expense Category' },
   { key: '/Withdrawals', icon: <MoneyCollectOutlined/>, title: 'Withdrawals' },
   { key: '/transferMoney', icon: <TransactionOutlined />, title: 'Transfer Money' },
+
+
 
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
   { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
