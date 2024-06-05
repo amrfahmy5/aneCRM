@@ -32,8 +32,8 @@ const SIDEBAR_MENU = [
   { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
   { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
   { key: '/supplier', icon: <CustomerServiceOutlined />, title: 'Supplier' },
-  { key: '/supplierOrder', icon: <FileTextOutlined />, title: 'supplier Order' },
-  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Payment SO' },
+  { key: '/supplierOrder', icon: <FileTextOutlined />, title: 'Purchases' },
+  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Purchases Payment' },
 
 
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },

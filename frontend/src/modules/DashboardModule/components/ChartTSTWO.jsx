@@ -101,7 +101,7 @@ function ChartTSTWO({ title1,title2,Date , Date2=[] }) {
           justifyContent: 'center',
         }}
       >
-        <h3 style={{ color: '#22075e', marginBottom: 30 }}>Monthly Sales</h3>
+        <h3 style={{ color: '#22075e', marginBottom: 30 }}>Monthly {title1}</h3>
         <Line data={data} />
       </div>
     </div>

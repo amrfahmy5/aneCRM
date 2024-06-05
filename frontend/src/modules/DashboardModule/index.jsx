@@ -174,12 +174,12 @@ export default function DashboardModule() {
     {
       result: supplierOrderResult,
       isLoading: supplierOrderLoading,
-      entity: 'Supplier Order',
+      entity: 'Purchases',
     },
     {
       result: paymentSOResult,
       isLoading: paymentSOLoading,
-      entity: 'Payment Supplier',
+      entity: 'Purchases Payment',
     },
     {
       result: expenseResult,
@@ -216,9 +216,9 @@ export default function DashboardModule() {
             ? 'darkRed'
             : data?.entity === 'paymentInvoice'
               ? 'red'
-              : data?.entity === 'Supplier Order'
+              : data?.entity === 'Purchases'
                 ? 'gray'
-                : data?.entity === 'Payment Supplier'
+                : data?.entity === 'Purchases Payment'
                   ? 'silver'
                   : data?.entity === 'expense'
                     ? 'cyan'
@@ -240,7 +240,7 @@ export default function DashboardModule() {
 
   const statisticCards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
-    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals' || entity === 'Transfering' || entity === 'Payment Supplier') return null;
+    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals' || entity === 'Transfering' || entity === 'Purchases Payment') return null;
     return (
       <PreviewCard
         key={index}
@@ -302,17 +302,17 @@ export default function DashboardModule() {
       <Row gutter={[24, 24]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
           <ChartTSTWO
-            title1={'sales'}
+            title1={'Sales'}
             Date={invoiceResult?.totalInvoiceMonthly}
-            title2={'payment'}
+            title2={'Payment'}
             Date2={paymentResult?.totalPaymentMonthly}
           />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
           <ChartTSTWO
-            title1={'supplier order'}
+            title1={'Purchases'}
             Date={supplierOrderResult?.totalSupplierOrderMonthly}
-            title2={'supplier payment'}
+            title2={'Payment'}
             Date2={paymentSOResult?.totalPaymentMonthly}
           />
         </Col>
