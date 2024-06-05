@@ -24,10 +24,12 @@ const summary = async (req, res) => {
     const currentDate = moment();
     let startDate = currentDate.clone().startOf(defaultType);
     let endDate = currentDate.clone().endOf(defaultType);
+    startDate.add(-1,'hours')
+    endDate.add(1,'hours')
+    
+    const statuses = ['draft', 'pending', 'overdue', 'paid', 'unpaid', 'partially'];
 
-    const statuses = ['draft', 'pending', 'sent', 'expired', 'declined', 'accepted'];
-
-    const result = await Model.aggregate([
+    const response = await Model.aggregate([
       {
         $match: {
           removed: false,
@@ -38,74 +40,230 @@ const summary = async (req, res) => {
         },
       },
       {
-        $group: {
-          _id: '$status',
-          count: {
-            $sum: 1,
+        $facet: {
+          totalSupplierOrder: [
+            {
+              $group: {
+                _id: null,
+                total: {
+                  $sum: '$total',
+                },
+                count: {
+                  $sum: 1,
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                total: '$total',
+                count: '$count',
+              },
+            },
+          ],
+          statusCounts: [
+            {
+              $group: {
+                _id: '$status',
+                count: {
+                  $sum: 1,
+                },
+                total: {
+                  $sum: '$total',
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                status: '$_id',
+                count: '$count',
+                total: '$total'
+              },
+            },
+          ],
+          paymentStatusCounts: [
+            {
+              $group: {
+                _id: '$paymentStatus',
+                count: {
+                  $sum: 1,
+                },
+                total: {
+                  $sum: '$total',
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                status: '$_id',
+                count: '$count',
+                total: '$total'
+              },
+            },
+          ],
+          overdueCounts: [
+            {
+              $match: {
+                expiredDate: {
+                  $lt: new Date(),
+                },
+              },
+            },
+            {
+              $group: {
+                _id: '$status',
+                count: {
+                  $sum: 1,
+                },
+                total: {
+                  $sum: '$total',
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                status: '$_id',
+                count: '$count',
+                total: '$total'
+              },
+            },
+          ],
+          totalSupplierOrderMonthly: [
+            {
+              $group: {
+                _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' }},
+                // _id: { $month: { $toDate: "$date" }  },
+                // _id: {
+                //   $dateToString: {
+                //     date: '$date' ,
+                //     format: "%Y-%m"
+                //   }
+                // },
+                // _id: { month: { $month: { $toDate: "$date" } } },
+                // _id: {$month: "$date"}, 
+                
+                //  averageValue: { $total: "$total" },
+                total: { $sum: '$subTotal', },
+              },
+            },
+            {
+              $sort: { _id: -1 },
+            }
+          ],
+        },
+      },
+    ]);
+    const response2 = await Model.aggregate([
+      {
+        $match: {
+          removed: false
+        },
+      },
+      {
+        $facet: {
+          totalSupplierOrderMonthly: [
+            {
+              $group: {
+                _id: {
+                  $dateToString: {
+                    date: '$date' ,
+                    format: "%Y-%m"
+                  }
+                },
+                total: { $sum: '$subTotal', },
+              },
+            },
+            {
+              $sort: { _id: 1 },
+            }
+          ],
+        },
+      },
+    ]);
+    let result = [];
+
+    const totalSupplierOrders = response[0].totalSupplierOrder ? response[0].totalSupplierOrder[0] : 0;
+    const statusResult = response[0].statusCounts || [];
+    const paymentStatusResult = response[0].paymentStatusCounts || [];
+    const overdueResult = response[0].overdueCounts || [];
+    const totalSupplierOrderMonthly =  response2[0].totalSupplierOrderMonthly || [];
+
+    const statusResultMap = statusResult.map((item) => {
+      return {
+        ...item,
+        percentage: Math.round((item.count / totalSupplierOrders.count) * 100),
+      };
+    });
+
+    const paymentStatusResultMap = paymentStatusResult.map((item) => {
+      return {
+        ...item,
+        percentage: Math.round((item.count / totalSupplierOrders.count) * 100),
+      };
+    });
+
+    const overdueResultMap = overdueResult.map((item) => {
+      return {
+        ...item,
+        status: 'overdue',
+        percentage: Math.round((item.count / totalSupplierOrders.count) * 100),
+      };
+    });
+
+    statuses.forEach((status) => {
+      const found = [...paymentStatusResultMap, ...statusResultMap, ...overdueResultMap].find(
+        (item) => item.status === status
+      );
+      if (found) {
+        result.push(found);
+      }
+    });
+
+    const unpaid = await Model.aggregate([
+      {
+        $match: {
+          removed: false,
+          date: {
+            $gte: startDate.toDate(),
+            $lte: endDate.toDate(),
           },
+          paymentStatus: 'unpaid',
+        },
+      },
+      {
+        $group: {
+          _id: null,
           total_amount: {
             $sum: '$total',
           },
         },
       },
       {
-        $group: {
-          _id: null,
-          total_count: {
-            $sum: '$count',
-          },
-          results: {
-            $push: '$$ROOT',
-          },
-        },
-      },
-      {
-        $unwind: '$results',
-      },
-      {
         $project: {
           _id: 0,
-          status: '$results._id',
-          count: '$results.count',
-          percentage: {
-            $round: [{ $multiply: [{ $divide: ['$results.count', '$total_count'] }, 100] }, 0],
-          },
-          total_amount: '$results.total_amount',
-        },
-      },
-      {
-        $sort: {
-          status: 1,
+          total_amount: '$total_amount',
         },
       },
     ]);
 
-    statuses.forEach((status) => {
-      const found = result.find((item) => item.status === status);
-      if (!found) {
-        result.push({
-          status,
-          count: 0,
-          percentage: 0,
-          total_amount: 0,
-        });
-      }
-    });
-
-    const total = result.reduce((acc, item) => acc + item.total_amount, 0).toFixed(2);
-
     const finalResult = {
-      total,
-      type: defaultType,
+      total: totalSupplierOrders?.total.toFixed(2),
+      total_undue: unpaid.length > 0 ? unpaid[0].total_amount.toFixed(2) : 0,
+      type,
       performance: result,
+      totalSupplierOrderMonthly
     };
 
     return res.status(200).json({
       success: true,
       result: finalResult,
-      message: `Successfully found all Quotations for the last ${defaultType}`,
+      message: `Successfully found all SupplierOrders for the last ${defaultType}`,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       result: null,
@@ -114,4 +272,5 @@ const summary = async (req, res) => {
     });
   }
 };
+
 module.exports = summary;

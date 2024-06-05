@@ -116,6 +116,7 @@ router.route('/supplierOrder/delete/:id').delete(catchErrors(supplierOrderContro
 router.route('/supplierOrder/search').get(catchErrors(supplierOrderController.search));
 router.route('/supplierOrder/list').get(catchErrors(supplierOrderController.list));
 router.route('/supplierOrder/filter').get(catchErrors(supplierOrderController.filter));
+router.route('/supplierOrder/summary').get(catchErrors(supplierOrderController.summary));
 
 // //_____________________________________________ API for supplier payments_________________
 

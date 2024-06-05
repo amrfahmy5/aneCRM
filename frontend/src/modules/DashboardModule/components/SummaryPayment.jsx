@@ -7,18 +7,21 @@ export default function AnalyticSummaryCard({
   tagContentWithdrawals,
   tagContentMoneyTranfer,
   tagContentMoneyReceived,
+  tagContentSupplierPayment,
   tagContentTotal,
   tagColorPayment,
   tagColorExpense,
   tagColorWithdrawals,
   tagColorMoneyTranfer,
   tagColorMoneyReceived,
+  tagColorSupplierPayment,
   tagColorTotal,
   prefixPayment,
   prefixExpense,
   prefixWithdrawals,
   prefixMoneyTranfer,
   prefixMoneyReceived,
+  prefixSupplierPayment,
   isLoading = false,
 }) {
   return (
@@ -42,22 +45,26 @@ export default function AnalyticSummaryCard({
         <div className="pad15">
           <Row gutter={[0, 0]} justify="space-between" wrap={false}>
             <Col className="gutter-row" flex="70px" style={{ textAlign: 'left' }}>
-              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixPayment}
               </div>
-              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
+                {prefixSupplierPayment}
+              </div>
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixExpense}
               </div>
-              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixWithdrawals}
               </div>
-              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixMoneyTranfer}
               </div>
-              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixMoneyReceived}
               </div>
-              <div className="left" style={{ whiteSpace: 'nowrap' , marginTop:'5px'}}>
+
+              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 Remaining
               </div>
             </Col>
@@ -98,6 +105,22 @@ export default function AnalyticSummaryCard({
                   </Tag>
                   <br></br>
                   <Tag
+                    color={tagColorSupplierPayment}
+                    style={{
+                      margin: '0 auto',
+                      justifyContent: 'center',
+                      maxWidth: '110px',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {tagContentSupplierPayment ? tagContentSupplierPayment : '0.00 L.E'}
+
+                  </Tag>
+
+                  <br></br>
+                  <Tag
                     color={tagColorExpense}
                     style={{
                       margin: '0 auto',
@@ -127,7 +150,7 @@ export default function AnalyticSummaryCard({
 
                   </Tag>
                   <br></br>
-                  
+
                   <Tag
                     color={tagColorMoneyTranfer}
                     style={{

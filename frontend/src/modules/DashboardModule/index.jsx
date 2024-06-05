@@ -94,6 +94,13 @@ export default function DashboardModule() {
     request.summary({ entity: 'expense' })
   );
 
+  const { result: supplierOrderResult, isLoading: supplierOrderLoading } = useFetch(() =>
+    request.summary({ entity: 'SupplierOrder' })
+  );
+  const { result: paymentSOResult, isLoading: paymentSOLoading } = useFetch(() =>
+    request.summary({ entity: 'payment/supplierOrder' })
+  );
+  console.log(supplierOrderResult)
 
   const resEntityDate = mergeMultipleArrays(
     [
@@ -102,6 +109,8 @@ export default function DashboardModule() {
       expenseResult?.expensesByPM,
       transferMoneuResult?.transferFromByPM,
       transferMoneuResult?.transferToByPm,
+      paymentSOResult?.paymentSOByPM
+
     ],
     'name'
   );
@@ -110,10 +119,11 @@ export default function DashboardModule() {
       <SummaryCardPayment
         key={index}
         title={data?.name}
-        tagColorPayment={'green'}
-        tagColorExpense={'red'}
-        tagColorWithdrawals={'gray'}
-        tagColorMoneyTranfer={'pink'}
+        tagColorPayment={'red'}
+        tagColorSupplierPayment={'silver'}
+        tagColorExpense={'cyan'}
+        tagColorWithdrawals={'green'}
+        tagColorMoneyTranfer={'gold'}
         tagColorMoneyReceived={'yellow'}
         tagColorTotal={'black'}
         prefixPayment={'Payment'}
@@ -121,25 +131,29 @@ export default function DashboardModule() {
         prefixWithdrawals={'Withdrawals'}
         prefixMoneyTranfer={'Transfer'}
         prefixMoneyReceived={'Received'}
+        prefixSupplierPayment={'S Payment'}
+
         tagContentPayment={data?.totalPaymentInvoice && formatCurrency(data?.totalPaymentInvoice)}
         tagContentExpense={data?.totalExpense && formatCurrency(data?.totalExpense)}
         tagContentWithdrawals={data?.totalWithdrawals && formatCurrency(data?.totalWithdrawals)}
         tagContentMoneyTranfer={data?.totalMoneySend && formatCurrency(data?.totalMoneySend)}
-        tagContentMoneyReceived={
-          data?.totalMoneyReceived && formatCurrency(data?.totalMoneyReceived)
-        }
+        tagContentMoneyReceived={data?.totalMoneyReceived && formatCurrency(data?.totalMoneyReceived)}
+        tagContentSupplierPayment={data?.totalPaymentSO && formatCurrency(data?.totalPaymentSO)}
+
         tagContentTotal={
           (data?.totalPaymentInvoice || 0) -
+          (data?.totalPaymentSO || 0) -
+          (data?.totalExpense || 0) -
+          (data?.totalWithdrawals || 0) -
+          (data?.totalMoneySend || 0) +
+          (data?.totalMoneyReceived || 0) &&
+          formatCurrency(
+            (data?.totalPaymentInvoice || 0) -
+            (data?.totalPaymentSO || 0) -
             (data?.totalExpense || 0) -
             (data?.totalWithdrawals || 0) -
             (data?.totalMoneySend || 0) +
-            (data?.totalMoneyReceived || 0) &&
-          formatCurrency(
-            (data?.totalPaymentInvoice || 0) -
-              (data?.totalExpense || 0) -
-              (data?.totalWithdrawals || 0) -
-              (data?.totalMoneySend || 0) +
-              (data?.totalMoneyReceived || 0)
+            (data?.totalMoneyReceived || 0)
           )
         }
       />
@@ -153,14 +167,19 @@ export default function DashboardModule() {
       entity: 'invoice',
     },
     {
-      result: quoteResult,
-      isLoading: quoteLoading,
-      entity: 'quote',
-    },
-    {
       result: paymentResult,
       isLoading: paymentLoading,
       entity: 'payment',
+    },
+    {
+      result: supplierOrderResult,
+      isLoading: supplierOrderLoading,
+      entity: 'Supplier Order',
+    },
+    {
+      result: paymentSOResult,
+      isLoading: paymentSOLoading,
+      entity: 'Payment Supplier',
     },
     {
       result: expenseResult,
@@ -177,6 +196,12 @@ export default function DashboardModule() {
       isLoading: transferMoneuLoading,
       entity: 'Transfering',
     },
+    {
+      result: quoteResult,
+      isLoading: quoteLoading,
+      entity: 'quote',
+    },
+
   ];
 
   const cards = entityData.map((data, index) => {
@@ -188,17 +213,24 @@ export default function DashboardModule() {
         title={data?.entity === 'paymentInvoice' ? 'Payment' : data?.entity}
         tagColor={
           data?.entity === 'invoice'
-            ? 'cyan'
-            : data?.entity === 'quote'
-            ? 'purple'
-            : data?.entity === 'expense'
-            ? 'red'
-            : data?.entity === 'withdrawals'
-            ? 'gray'
-            : data?.entity === 'Transfering'
-            ? 'yellow'
-            : 'green'
+            ? 'darkRed'
+            : data?.entity === 'paymentInvoice'
+              ? 'red'
+              : data?.entity === 'Supplier Order'
+                ? 'gray'
+                : data?.entity === 'Payment Supplier'
+                  ? 'silver'
+                  : data?.entity === 'expense'
+                    ? 'cyan'
+                    : data?.entity === 'withdrawals'
+                      ? 'green'
+                      : data?.entity === 'Transfering'
+                        ? 'yellow'
+                        : data?.entity === 'quote'
+                          ? 'purple'
+                          : 'red'
         }
+
         prefix={'This month'}
         isLoading={isLoading}
         tagContent={result?.total && formatCurrency(result?.total)}
@@ -208,7 +240,7 @@ export default function DashboardModule() {
 
   const statisticCards = entityData.map((data, index) => {
     const { result, entity, isLoading } = data;
-    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals' ||entity === 'Transfering') return null;
+    if (entity === 'payment' || entity === 'expense' || entity === 'withdrawals' || entity === 'Transfering' || entity === 'Payment Supplier') return null;
     return (
       <PreviewCard
         key={index}
@@ -255,22 +287,20 @@ export default function DashboardModule() {
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
-        
-        
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
-          <ChartBars expenses={expenseResult} title={'Expenses By Wallet'} />
+          <ChartBars expenses={expenseResult} title={'Expenses Category'} />
         </Col>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
           <ChartTS expenses={expenseResult} />
-        </Col>  
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
-          <ChartPies expenses={expenseResult} title={'Expense Category'} />
         </Col>
+        {/* <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
+          <ChartPies expenses={expenseResult} title={'Expense Category'} />
+        </Col> */}
       </Row>
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
           <ChartTSTWO
             title1={'sales'}
             Date={invoiceResult?.totalInvoiceMonthly}
@@ -278,7 +308,15 @@ export default function DashboardModule() {
             Date2={paymentResult?.totalPaymentMonthly}
           />
         </Col>
-        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
+          <ChartTSTWO
+            title1={'supplier order'}
+            Date={supplierOrderResult?.totalSupplierOrderMonthly}
+            title2={'supplier payment'}
+            Date2={paymentSOResult?.totalPaymentMonthly}
+          />
+        </Col>
+        <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 8 }}>
           <ChartTSInvoice title="Expense" Date={expenseResult?.totalExpenseMonthly} />
         </Col>
       </Row>

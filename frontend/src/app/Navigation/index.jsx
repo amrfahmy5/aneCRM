@@ -29,12 +29,11 @@ const SIDEBAR_MENU = [
   // { key: '/offer', icon: <FileOutlined />, title: 'Offer' },
   { key: '/customer', icon: <CustomerServiceOutlined />, title: 'Customer' },
   { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice' },
-  { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
   { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
-
+  { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
   { key: '/supplier', icon: <CustomerServiceOutlined />, title: 'Supplier' },
   { key: '/supplierOrder', icon: <FileTextOutlined />, title: 'supplier Order' },
-  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Payment Supplier Order' },
+  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Payment SO' },
 
 
   { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
