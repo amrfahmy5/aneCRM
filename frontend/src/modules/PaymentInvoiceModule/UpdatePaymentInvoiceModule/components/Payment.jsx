@@ -100,7 +100,7 @@ export default function Payment({ config, currentItem }) {
           md={{ span: 12, order: 1 }}
           lg={{ span: 10, order: 1, push: 2 }}
         >
-          <UpdatePayment config={config} currentInvoice={currentItem} />
+          <UpdatePayment config={config} currentInvoice={currentErp} date={currentItem?.date} />
         </Col>
       </Row>
     </>

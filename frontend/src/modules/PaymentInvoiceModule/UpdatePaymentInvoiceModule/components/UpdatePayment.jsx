@@ -11,7 +11,7 @@ import Loading from '@/components/Loading';
 
 import calculate from '@/utils/calculate';
 import PaymentInvoiceForm from '../../Forms/PaymentInvoiceForm';
-export default function UpdatePayment({ config, currentInvoice }) {
+export default function UpdatePayment({ config, currentInvoice,date }) {
   let { entity } = config;
   const dispatch = useDispatch();
 
@@ -28,7 +28,10 @@ export default function UpdatePayment({ config, currentInvoice }) {
       setMaxAmount(
         calculate.sub(calculate.sub(total, discount), calculate.sub(calculate.sub(credit, amount)))
       );
-      if (currentInvoice.date) {
+      if(date){
+        currentInvoice.date = dayjs(date);
+      }
+      else if (currentInvoice.date) {
         currentInvoice.date = dayjs(currentInvoice.date);
       }
       form.setFieldsValue(currentInvoice);
