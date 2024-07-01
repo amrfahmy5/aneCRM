@@ -31,19 +31,19 @@ function App() {
 
 
 
-  const { isLoggedIn } = useSelector(selectAuth);
+  const { isLoggedIn ,role } = useSelector(selectAuth);
 
   if (!isLoggedIn) return <Router />;
   else {
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        <Navigation />
+        <Navigation loginInUserRole={role} />
         <Layout style={{ minHeight: '100vh' }}>
           <HeaderContent />
           <Router isLoggedIn={true} />
         </Layout>
       </Layout>
-    );
+    ); 
   }
 }
 

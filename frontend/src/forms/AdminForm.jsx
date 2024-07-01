@@ -70,6 +70,7 @@ export default function AdminForm({ isUpdateForm = false }) {
         ]}
       >
         <Select>
+          <Select.Option value="superAdmin">Super Admin</Select.Option>
           <Select.Option value="admin">Admin</Select.Option>
           <Select.Option value="staff">Staff</Select.Option>
         </Select>

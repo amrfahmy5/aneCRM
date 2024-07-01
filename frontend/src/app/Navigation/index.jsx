@@ -24,56 +24,56 @@ import {
 } from '@ant-design/icons';
 
 const SIDEBAR_MENU = [
-  { key: '/', icon: <DashboardOutlined />, title: 'Dashboard' },
+  { key: '/', icon: <DashboardOutlined />, title: 'Dashboard', role: "admin" },
   // { key: '/lead', icon: <UserAddOutlined />, title: 'Lead' },
   // { key: '/offer', icon: <FileOutlined />, title: 'Offer' },
-  { key: '/customer', icon: <CustomerServiceOutlined />, title: 'Customer' },
-  { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice' },
-  { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice' },
-  { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote' },
-  { key: '/supplier', icon: <CustomerServiceOutlined />, title: 'Supplier' },
-  { key: '/supplierOrder', icon: <FileTextOutlined />, title: 'Purchases' },
-  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Purchases Payment' },
+  { key: '/customer', icon: <CustomerServiceOutlined />, title: 'Customer', role: "admin,staff" },
+  { key: '/invoice', icon: <FileTextOutlined />, title: 'Invoice', role: "admin" },
+  { key: '/payment/invoice', icon: <CreditCardOutlined />, title: 'Payment Invoice', role: "admin" },
+  { key: '/quote', icon: <FileSyncOutlined />, title: 'Quote', role: "admin,staff" },
+  { key: '/supplier', icon: <CustomerServiceOutlined />, title: 'Supplier', role: "admin" },
+  { key: '/supplierOrder', icon: <FileTextOutlined />, title: 'Purchases', role: "admin" },
+  { key: '/payment/supplierOrder', icon: <CreditCardOutlined />, title: 'Purchases Payment', role: "admin" },
 
 
-  { key: '/expense', icon: <DollarOutlined/>, title: 'Expense' },
-  { key: '/expenseCategory', icon: <GatewayOutlined/>, title: 'Expense Category' },
-  { key: '/Withdrawals', icon: <MoneyCollectOutlined/>, title: 'Withdrawals' },
-  { key: '/transferMoney', icon: <TransactionOutlined />, title: 'Transfer Money' },
+  { key: '/expense', icon: <DollarOutlined />, title: 'Expense', role: "admin" },
+  { key: '/expenseCategory', icon: <GatewayOutlined />, title: 'Expense Category', role: "admin" },
+  { key: '/Withdrawals', icon: <MoneyCollectOutlined />, title: 'Withdrawals', role: "admin" },
+  { key: '/transferMoney', icon: <TransactionOutlined />, title: 'Transfer Money', role: "admin" },
 
 
 
   // { key: '/employee', icon: <UserOutlined />, title: 'Employee' },
-  { key: '/admin', icon: <TeamOutlined />, title: 'Admin' },
+  { key: '/admin', icon: <TeamOutlined />, title: 'Admin', role: "" },
 
 
 
 ];
 
 const SETTINGS_SUBMENU = [
-  { key: '/settings', title: 'General Settings' },
+  { key: '/settings', title: 'General Settings', role: "" },
 
   // { key: '/email', title: 'Email templates' },
 
-  { key: '/payment/mode', title: 'Payment Mode' },
+  { key: '/payment/mode', title: 'Payment Mode', role: "" },
   // { key:  '/settings/advanced', title: 'Advanced Settings' },
 ];
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default function Navigation() {
+export default function Navigation({ loginInUserRole = "admin" }) {
   return (
     <>
       <div className="sidebar-wraper">
-        <Sidebar collapsible={true} />
+        <Sidebar loginInUserRole={loginInUserRole} collapsible={true} />
       </div>
       <MobileSidebar />
     </>
   );
 }
 
-function Sidebar({ collapsible }) {
+function Sidebar({ collapsible, loginInUserRole }) {
   let location = useLocation();
 
   const { state: stateApp, appContextAction } = useAppContext();
@@ -110,26 +110,32 @@ function Sidebar({ collapsible }) {
         className="navigation"
       >
         <div className="logo mb-4" onClick={() => history.push('/')} style={{ cursor: 'pointer' }}>
-          <img src="/favicon.png" alt="Logo" style={{  height: '95px', width:'100px' }} />
+          <img src="/favicon.png" alt="Logo" style={{ height: '95px', width: '100px' }} />
 
           {!showLogoApp && (
-            <span style={{'font-weight': 'bolder'}} >CRM</span>
+            <span style={{ 'font-weight': 'bolder' }} >CRM</span>
           )}
         </div>
-        <Menu mode="inline" style={{'margin-top': '50px'}} selectedKeys={[currentPath]}>
-          {SIDEBAR_MENU.map((menuItem) => (
-            <Menu.Item key={menuItem.key} icon={menuItem.icon}>
-              <Link to={menuItem.key} />
-              {menuItem.title}
-            </Menu.Item>
-          ))}
+        <Menu mode="inline" style={{ 'margin-top': '50px' }} selectedKeys={[currentPath]}>
+          {SIDEBAR_MENU.map((menuItem) => {
+            if (menuItem?.role.split(',').includes(loginInUserRole)||loginInUserRole=="superAdmin")
+              return (
+                <Menu.Item key={menuItem.key} icon={menuItem.icon}>
+                  <Link to={menuItem.key} />
+                  {menuItem.title}
+                </Menu.Item>)
+          })}
+
           <SubMenu key={'Settings'} icon={<SettingOutlined />} title={'Settings'}>
-            {SETTINGS_SUBMENU.map((menuItem) => (
-              <Menu.Item key={menuItem.key}>
-                <Link to={menuItem.key} />
-                {menuItem.title}
-              </Menu.Item>
-            ))}
+            {SETTINGS_SUBMENU.map((menuItem) => {
+            if (menuItem?.role.split(',').includes(loginInUserRole)||loginInUserRole=="superAdmin")
+              return (
+                <Menu.Item key={menuItem.key}>
+                  <Link to={menuItem.key} />
+                  {menuItem.title}
+                </Menu.Item>
+              )
+            })}
           </SubMenu>
         </Menu>
       </Sider>
