@@ -171,8 +171,8 @@ const request = {
 
   summary: async ({ entity, options = {} }) => {
     try {
-      const response = await axios.get(entity + '/summary');
-      // console.log(response.data)
+      let query = `?start_date=${options.start_date}&&end_date=${options.end_date}`;
+      const response = await axios.get(entity + '/summary' + query);
       successHandler(response, {
         notifyOnSuccess: false,
         notifyOnFailed: false,

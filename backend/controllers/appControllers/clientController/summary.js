@@ -8,7 +8,7 @@ const InvoiceModel = mongoose.model('Invoice');
 const summary = async (req, res) => {
   try {
     let defaultType = 'month';
-    const { type } = req.query;
+    const { type, start_date, end_date } = req.query;
 
     if (type && ['week', 'month', 'year'].includes(type)) {
       defaultType = type;
@@ -21,8 +21,8 @@ const summary = async (req, res) => {
     }
 
     const currentDate = moment();
-    let startDate = currentDate.clone().startOf(defaultType);
-    let endDate = currentDate.clone().endOf(defaultType);
+    let startDate = start_date ? moment(start_date, "DD-MM-YYYY").clone() : currentDate.clone().startOf(defaultType) ;
+    let endDate = end_date ? moment(end_date, "DD-MM-YYYY").clone() : currentDate.clone().endOf(defaultType) ;
 
     const pipeline = [
       {

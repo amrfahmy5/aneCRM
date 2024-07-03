@@ -20,6 +20,8 @@ import ChartTSTWO from './components/ChartTSTWO';
 import ChartPies from './components/ChartPie';
 import ChartBars from './components/ChartBar';
 
+import RangeDate from './components/RangeDate';
+
 const dataTableColumns = [
   {
     title: 'N#',
@@ -67,40 +69,45 @@ function formatCurrency(value) {
   return `${value} L.E`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 export default function DashboardModule() {
+
+  var url = new URL(window.location.href);
+  var options = {}
+  options.start_date = url.searchParams.get("start_date");
+  options.end_date = url.searchParams.get("end_date");
+
   const { result: invoiceResult, isLoading: invoiceLoading } = useFetch(() =>
-    request.summary({ entity: 'invoice' })
+    request.summary({ entity: 'invoice' , options})
   );
 
   const { result: quoteResult, isLoading: quoteLoading } = useFetch(() =>
-    request.summary({ entity: 'quote' })
+    request.summary({ entity: 'quote' ,options})
   );
   const { result: transferMoneuResult, isLoading: transferMoneuLoading } = useFetch(() =>
-    request.summary({ entity: 'transferMoney' })
+    request.summary({ entity: 'transferMoney' ,options})
   );
   // const { result: offerResult, isLoading: offerLoading } = useFetch(() =>
   //   request.summary({ entity: 'offer' })
   // );
 
   const { result: paymentResult, isLoading: paymentLoading } = useFetch(() =>
-    request.summary({ entity: 'payment/invoice' })
+    request.summary({ entity: 'payment/invoice' ,options})
   );
   const { result: clientResult, isLoading: clientLoading } = useFetch(() =>
-    request.summary({ entity: 'client' })
+    request.summary({ entity: 'client' ,options})
   );
   const { result: withdrawalsResult, isLoading: withdrawalsLoading } = useFetch(() =>
-    request.summary({ entity: 'withdrawals' })
+    request.summary({ entity: 'withdrawals' ,options})
   );
   const { result: expenseResult, isLoading: expenseLoading } = useFetch(() =>
-    request.summary({ entity: 'expense' })
+    request.summary({ entity: 'expense' ,options})
   );
 
   const { result: supplierOrderResult, isLoading: supplierOrderLoading } = useFetch(() =>
-    request.summary({ entity: 'SupplierOrder' })
+    request.summary({ entity: 'SupplierOrder' ,options})
   );
   const { result: paymentSOResult, isLoading: paymentSOLoading } = useFetch(() =>
-    request.summary({ entity: 'payment/supplierOrder' })
+    request.summary({ entity: 'payment/supplierOrder' ,options})
   );
-  console.log(supplierOrderResult)
 
   const resEntityDate = mergeMultipleArrays(
     [
@@ -262,6 +269,8 @@ export default function DashboardModule() {
 
   return (
     <DashboardLayout>
+        <RangeDate />
+
       <Row gutter={[24, 24]}>{cards}</Row>
 
       <div className="space30"></div>

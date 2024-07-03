@@ -7,8 +7,7 @@ const summary = async (req, res) => {
   try {
     let defaultType = 'month';
 
-    const { type } = req.query;
-
+    const { type, start_date, end_date } = req.query;
     if (type) {
       if (['week', 'month', 'year'].includes(type)) {
         defaultType = type;
@@ -21,12 +20,12 @@ const summary = async (req, res) => {
       }
     }
 
-    const currentDate = moment();
-    let startDate = currentDate.clone().startOf(defaultType);
-    let endDate = currentDate.clone().endOf(defaultType);
-    startDate.add(-1,'hours')
-    endDate.add(1,'hours')
-    
+    let currentDate = moment();
+    let startDate = start_date ? moment(start_date, "DD-MM-YYYY").clone() : currentDate.clone().startOf(defaultType) ;
+    let endDate = end_date ? moment(end_date, "DD-MM-YYYY").clone() : currentDate.clone().endOf(defaultType) ;
+    startDate.add(-1, 'hours')
+    endDate.add(1, 'hours')
+
     const statuses = ['draft', 'pending', 'overdue', 'paid', 'unpaid', 'partially'];
 
     const response = await Model.aggregate([
@@ -144,7 +143,7 @@ const summary = async (req, res) => {
                 // },
                 // _id: { month: { $month: { $toDate: "$date" } } },
                 // _id: {$month: "$date"}, 
-                
+
                 //  averageValue: { $total: "$total" },
                 total: { $sum: '$subTotal', },
               },
