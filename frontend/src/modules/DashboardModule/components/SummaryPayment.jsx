@@ -38,14 +38,14 @@ export default function AnalyticSummaryCard({
       >
         <div className="pad15 strong" style={{ textAlign: 'center', justifyContent: 'center' }}>
           <h3 style={{ color: '#22075e', marginBottom: 0, textTransform: 'capitalize' }}>
-            {title}
+            {title} - Bank
           </h3>
         </div>
         <Divider style={{ padding: 0, margin: 0 }}></Divider>
         <div className="pad15">
           <Row gutter={[0, 0]} justify="space-between" wrap={false}>
             <Col className="gutter-row" flex="70px" style={{ textAlign: 'left' }}>
-              <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
+              {/* <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixPayment}
               </div>
               <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
@@ -62,10 +62,10 @@ export default function AnalyticSummaryCard({
               </div>
               <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
                 {prefixMoneyReceived}
-              </div>
+              </div> */}
 
               <div className="left" style={{ whiteSpace: 'nowrap', marginTop: '5px' }}>
-                Remaining
+                Available
               </div>
             </Col>
             <Divider
@@ -90,7 +90,7 @@ export default function AnalyticSummaryCard({
                 <Spin />
               ) : (
                 <Tooltip title={tagContentTotal}>
-                  <Tag
+                  {/* <Tag
                     color={tagColorPayment}
                     style={{
                       margin: '0 auto',
@@ -180,7 +180,7 @@ export default function AnalyticSummaryCard({
                     {tagContentMoneyReceived ? tagContentMoneyReceived : '0.00 L.E'}
 
                   </Tag>
-                  <br></br>
+                  <br></br> */}
                   <Tag
                     color={tagColorTotal}
                     style={{
