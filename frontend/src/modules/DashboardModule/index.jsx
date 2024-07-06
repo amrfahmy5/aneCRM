@@ -273,21 +273,17 @@ export default function DashboardModule() {
     <DashboardLayout>
 
         <Row gutter={[24, 24]}>
-
           <SummaryCardBanks  banks={resEntityDate } />
       </Row>
-      <div className="space30"></div>
 
+      <div className="space30"></div>
       <RangeDate />
-      <div className="space30"></div>
 
+      <div className="space30"></div>
       <Row gutter={[24, 24]}>{cards}</Row>
 
       {/* <div className="space30"></div>
       <Row gutter={[24, 24]}>{cardsTotalSummary}</Row> */}
-
-      
-      
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>
