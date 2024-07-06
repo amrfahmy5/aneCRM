@@ -22,7 +22,6 @@ export default function RangeDate() {
     
     return (
         <Form>
-
             <Row>
                 <Col className="gutter-row"
                     xs={{ span: 8 }}

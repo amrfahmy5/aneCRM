@@ -10,6 +10,8 @@ import RecentTable from './components/RecentTable';
 
 import SummaryCard from './components/SummaryCard';
 import SummaryCardPayment from './components/SummaryPayment';
+import SummaryCardBanks from './components/SummaryCardBanks';
+
 
 import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
@@ -269,12 +271,23 @@ export default function DashboardModule() {
 
   return (
     <DashboardLayout>
-        <RangeDate />
+
+        <Row gutter={[24, 24]}>
+
+          <SummaryCardBanks  banks={resEntityDate } />
+      </Row>
+      <div className="space30"></div>
+
+      <RangeDate />
+      <div className="space30"></div>
 
       <Row gutter={[24, 24]}>{cards}</Row>
 
-      <div className="space30"></div>
-      <Row gutter={[24, 24]}>{cardsTotalSummary}</Row>
+      {/* <div className="space30"></div>
+      <Row gutter={[24, 24]}>{cardsTotalSummary}</Row> */}
+
+      
+      
 
       <div className="space30"></div>
       <Row gutter={[24, 24]}>

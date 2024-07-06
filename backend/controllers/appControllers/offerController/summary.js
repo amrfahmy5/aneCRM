@@ -22,8 +22,8 @@ const summary = async (req, res) => {
     }
 
     let currentDate = moment();
-    let startDate = start_date ? moment(start_date, "DD-MM-YYYY").clone() : currentDate.clone().startOf(defaultType) ;
-    let endDate = end_date ? moment(end_date, "DD-MM-YYYY").clone() : currentDate.clone().endOf(defaultType) ;
+    let startDate = start_date!="null" && start_date ? moment(start_date, "DD-MM-YYYY").clone() : currentDate.clone().startOf(defaultType) ;
+    let endDate = end_date!="null" && end_date? moment(end_date, "DD-MM-YYYY").clone() : currentDate.clone().endOf(defaultType) ;
 
     const statuses = ['draft', 'pending', 'sent', 'expired', 'declined', 'accepted'];
 
