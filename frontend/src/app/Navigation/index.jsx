@@ -118,7 +118,7 @@ function Sidebar({ collapsible, loginInUserRole }) {
         </div>
         <Menu mode="inline" style={{ 'margin-top': '50px' }} selectedKeys={[currentPath]}>
           {SIDEBAR_MENU.map((menuItem) => {
-            if (menuItem?.role.split(',').includes(loginInUserRole)||loginInUserRole=="superAdmin")
+            // if (menuItem?.role.split(',').includes(loginInUserRole)||loginInUserRole=="superAdmin")
               return (
                 <Menu.Item key={menuItem.key} icon={menuItem.icon}>
                   <Link to={menuItem.key} />
@@ -128,7 +128,7 @@ function Sidebar({ collapsible, loginInUserRole }) {
 
           <SubMenu key={'Settings'} icon={<SettingOutlined />} title={'Settings'}>
             {SETTINGS_SUBMENU.map((menuItem) => {
-            if (menuItem?.role.split(',').includes(loginInUserRole)||loginInUserRole=="superAdmin")
+            // if (menuItem?.role.split(',').includes(loginInUserRole)||loginInUserRole=="superAdmin")
               return (
                 <Menu.Item key={menuItem.key}>
                   <Link to={menuItem.key} />

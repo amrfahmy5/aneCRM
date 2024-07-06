@@ -8,42 +8,42 @@
 
 exports.authorizationSuperAdmin = (fn) => {
     return function (req, res, next) {
-        if (req.admin.role == "superAdmin") {
+        // if (req.admin.role == "superAdmin") {
             const resp = fn(req, res, next);
             if (resp instanceof Promise) {
                 return resp.catch(next);
             }
             return resp;
-        }
-        else
-            return resp.catch(next);
+        // }
+        // else
+        //     return resp.catch(next);
     }
 };
 
 exports.authorizationAdmin = (fn) => {
     return function (req, res, next) {
-        if (req.admin.role == "superAdmin") {
+        // if (req.admin.role == "superAdmin") {
             const resp = fn(req, res, next);
             if (resp instanceof Promise) {
                 return resp.catch(next);
             }
             return resp;
-        }
-        else
-            return resp.catch(next);
+        // }
+        // else
+        //     return resp.catch(next);
     }
 };
 
 exports.authorizationStaff = (fn) => {
     return function (req, res, next) {
-        if (req.admin.role == "superAdmin") {
+        // if (req.admin.role == "superAdmin") {
             const resp = fn(req, res, next);
             if (resp instanceof Promise) {
                 return resp.catch(next);
             }
             return resp;
-        }
-        else
-            return resp.catch(next);
+        // }
+        // else
+        //     return resp.catch(next);
     }
 };
